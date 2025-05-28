@@ -1,0 +1,29 @@
+{
+  "recommendations": [
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "mgmcdermott.vscode-language-babel",
+    "aaron-bond.better-comments",
+    "thekalinga.bootstrap4-vscode",
+    "babobski.bootstrap-5-snippets",
+    "anbuselvanrocky.bootstrap5-vscode",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "mikestead.dotenv",
+    "editorconfig.editorconfig",
+    "xabikos.javascriptsnippets",
+    "pkief.material-icon-theme",
+    "fabiospampinato.vscode-monokai-night",
+    "quicktype.quicktype",
+    "christian-kohler.path-intellisense",
+    "sasa.vscode-sass-format",
+    "suhelmakkad.shadcn-ui",
+    "burkeholland.simple-react-snippets",
+    "yuzu.snippets-next-13",
+    "dannyconnell.split-html-attributes",
+    "bradlc.vscode-tailwindcss",
+    "pmneo.tsimporter",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ]
+}

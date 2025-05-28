@@ -1,0 +1,60 @@
+{
+  // ===== Configuraciones personales (las conservo) =====
+  "workbench.startupEditor": "none",
+  "material-icon-theme.activeIconPack": "nest",
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "editor.guides.bracketPairs": true,
+  "editor.inlineSuggest.enabled": true,
+  "files.autoSave": "onFocusChange",
+  "workbench.colorTheme": "NarutoDark",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontFamily": "'Cascadia Code'",
+  "editor.fontLigatures": true,
+  "cSpell.language": "en,es-ES",
+  "editor.mouseWheelZoom": true,
+  "explorer.confirmDelete": false,
+  "tabnine.experimentalAutoImports": true,
+  "powermode.enabled": true,
+  "powermode.shake.enabled": false,
+  "workbench.activityBar.location": "hidden",
+  "editor.minimap.enabled": false,
+
+  // ===== Configuraciones clave para ESLint v9+ y Prettier ===== //
+  // ESLint (Flat Config)
+  "eslint.experimental.useFlatConfig": true, // Necesario para ESLint v9+
+  "eslint.validate": ["javascript", "typescript"],
+  "eslint.alwaysShowStatus": true,
+
+  // Prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+
+  // Evitar conflictos (¡importante!)
+  "eslint.codeActionsOnSave.rules": null, // Desactiva reglas obsoletas
+  "eslint.format.enable": false, // Deja que Prettier maneje el formato
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "background.autoInstall": false,
+  "background.enabled": true,
+  "background.editor": {
+    "useFront": true,
+    "style": {
+      "background-position": "center center",
+      "background-size": "cover",
+      "opacity": 0.2
+    },
+    "images": [
+      "file:///c:/Users/Beliel/Image/wallpaper/desktop-wallpaper-anime-girls-sword-battle-fantasy-pc-fighting-anime.jpg"
+    ],
+    "interval": 0,
+    "random": false
+  }
+}
