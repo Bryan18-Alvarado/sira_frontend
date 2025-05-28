@@ -6,15 +6,15 @@ export async function getAllDocentes(
   limit: number = 10
 ): Promise<DocentesResponse> {
   const response = await fetch(
-    `http://localhost:4000/api/v1/cars?offset=${Number(offset)}&limit=${Number(
-      limit
-    )}`,
+    `http://localhost:4000/api/v1/docentes?offset=${Number(
+      offset
+    )}&limit=${Number(limit)}`,
     { cache: "no-store" }
   );
   return await response.json();
 }
 
-export async function addCar(docenteData: DocenteData) {
+export async function addDocente(docenteData: DocenteData) {
   const res = await fetch("http://localhost:4000/api/v1/docentes", {
     method: "POST",
     headers: {

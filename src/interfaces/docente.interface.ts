@@ -27,6 +27,7 @@ export interface Docente {
 }
 
 export interface DocenteData {
+  id: number;
   nombre: string;
   apellido: string;
   edad: string;

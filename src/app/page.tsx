@@ -6,8 +6,8 @@ const HomePage = () => {
   return (
     <div className="flex justify-between">
       <h1 className="text-4xl font-bold">SIRA</h1>
-      <Link href="/estudiantes/add" className={buttonVariants()}>
-        Nuevo estudiante
+      <Link href="docentes/add" className={buttonVariants()}>
+        Nuevo docente
       </Link>
     </div>
   );
