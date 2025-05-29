@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -46,6 +47,7 @@ const SelectScrollUpButton = React.forwardRef<
   >
     <ChevronUp className="h-4 w-4" />
   </SelectPrimitive.ScrollUpButton>
+
 ));
 SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
 
@@ -108,6 +110,7 @@ const SelectLabel = React.forwardRef<
     className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
     {...props}
   />
+
 ));
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
@@ -157,4 +160,5 @@ export {
   SelectSeparator,
   SelectScrollUpButton,
   SelectScrollDownButton,
+
 };
