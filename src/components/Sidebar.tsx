@@ -29,13 +29,15 @@ const menuItems = [
 
 export const Sidebar = () => {
   return (
-    <aside className="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
+    <aside
+      className="fixed z-10 top-0 left-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300
+      md:w-4/12 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]"
+    >
       <div>
         <div className="-mx-6 px-6 py-4">
           <Link href="#" title="home">
             <Image
               src="https://images.vexels.com/media/users/3/147726/isolated/svg/3c35c23c922833a71a94e7d5faf28b88.svg"
-              className="w-15"
               alt="tailus logo"
               width={50}
               height={50}
@@ -48,7 +50,7 @@ export const Sidebar = () => {
             src="https://wallpapers.com/images/high/camila-cabello-close-up-shot-vi4rwv9t7y8pv91f.webp"
             width={150}
             height={150}
-            alt=""
+            alt="Profile"
             className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
           />
           <h5 className="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">

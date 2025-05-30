@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DocenteTable from "../../../components/docentes/docentes-table";
 
-function BrandsTablePage() {
+function DocentesTablePage() {
   return (
     <div className="container mx-auto py-8">
       <Card className="w-full max-w-6xl mx-auto">
@@ -17,4 +17,4 @@ function BrandsTablePage() {
   );
 }
 
-export default BrandsTablePage;
+export default DocentesTablePage;

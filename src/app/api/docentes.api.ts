@@ -18,10 +18,13 @@ export async function getAllDocentes(
 }
 
 export async function addDocente(docenteData: DocenteData) {
+  const token =
+    "Agregar token aqui";
   const res = await fetch("http://localhost:4000/api/v1/docentes", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(docenteData),
   });
