@@ -13,7 +13,7 @@ export interface Docente {
     id: number;
     marital_status: string;
   };
-  codigo_laboral: string;
+  codigo_laboral: number;
   cursos_asignados: string;
   direccion?: string;
   fecha_ingreso: string;
@@ -33,7 +33,7 @@ export interface DocenteData {
   edad: number;
   genero_id: number;
   estado_civil_id: number;
-  codigo_laboral: string;
+  codigo_laboral: number;
   cursos_asignados: string;
   direccion?: string;
   fecha_ingreso: string;
