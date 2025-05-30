@@ -45,8 +45,12 @@ export async function updateDocente(docenteData: DocenteData, id: number) {
 }
 
 export async function deleteDocente(id: number) {
+  const token = "AGREGAR TOKEN AQUI";
   const res = await fetch(`http://localhost:4000/api/v1/docentes/${id}`, {
     method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   return res.json();
