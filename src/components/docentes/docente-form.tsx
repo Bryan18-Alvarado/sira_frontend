@@ -1,13 +1,11 @@
 "use client";
-import { DocenteData } from "@/interfaces/docente.interface";
 import { useParams, useRouter } from "next/navigation";
-import { getAllDocentes } from "../../app/api/docente.api";
 import { useEffect, useState } from "react";
 import { set, useForm } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
-import { addDocente, updateDocente } from "@/app/api/docente.api";
+import { addDocente, updateDocente } from "@/app/api/docentes.api";
 import {
   Select,
   SelectTrigger,
@@ -15,24 +13,31 @@ import {
   SelectContent,
   SelectItem,
 } from "../ui/select";
+import { getAllGenders } from "../../app/api/genders.api";
+import { DocenteData } from "../../interface/docente.interface";
+
+export const metadata = {
+  title: "Agregar Docente",
+  description: "Agregar un nuevo docente al sistema",
+};
 
 export function DocenteForm() {
   const { register, handleSubmit, setValue } = useForm<DocenteData>();
   const router = useRouter();
-  const [docentes, setDocente] = useState<{ id: number; nombre: string }[]>([]);
+  const [genders, setGenders] = useState<{ id: number; name: string }[]>([]);
 
   useEffect(() => {
-    const fetchDocentes = async () => {
-      const res = await getAllDocentes(0, 100);
-      setDocente(res.data);
+    const fetchGenders = async () => {
+      const res = await getAllGenders(0, 100);
+      setGenders(res.data);
     };
-    fetchDocentes();
+    fetchGenders();
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     await addDocente(data);
-    router.push("/");
+    router.push("/dashboard/docentes");
     router.refresh();
   });
 
@@ -65,9 +70,9 @@ export function DocenteForm() {
           <SelectValue placeholder="Selecciona un genero" />
         </SelectTrigger>
         <SelectContent>
-          {docentes.map((docente) => (
-            <SelectItem key={docente.id} value={docente.id.toString()}>
-              {docente.nombre}
+          {genders.map((gender) => (
+            <SelectItem key={gender.id} value={gender.id.toString()}>
+              {gender.name}
             </SelectItem>
           ))}
         </SelectContent>
