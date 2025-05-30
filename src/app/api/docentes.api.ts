@@ -19,7 +19,7 @@ export async function getAllDocentes(
 
 export async function addDocente(docenteData: DocenteData) {
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ4NTgyMjI3LCJleHAiOjE3NDg1ODk0Mjd9.Oz9lTUd3OP-r0agzFu9LZcJAS5FP0TFTcjjLx2Aq8pE";
+    "Agregar token aqui";
   const res = await fetch("http://localhost:4000/api/v1/docentes", {
     method: "POST",
     headers: {
