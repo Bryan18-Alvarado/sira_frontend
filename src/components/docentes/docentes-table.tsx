@@ -91,7 +91,7 @@ export function DocenteTable() {
 
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/dashboard/docente/${docente.id}`}>
+                    <Link href={`/dashboard/docentes/${docente.id}`}>
                       <Button
                         size="sm"
                         className="bg-blue-600 text-white hover:bg-blue-700"
