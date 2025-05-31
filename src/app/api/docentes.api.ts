@@ -18,8 +18,7 @@ export async function getAllDocentes(
 }
 
 export async function addDocente(docenteData: DocenteData) {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ4NjUwMjE3LCJleHAiOjE3NDg2NTc0MTd9.0-E61aS4g6d3uE_oGYmmsyCO8xao6hl-FAv1tesGvMs";
+  const token = "Agregar tu token de autenticación aquí";
   const res = await fetch("http://localhost:4000/api/v1/docentes", {
     method: "POST",
     headers: {
@@ -33,8 +32,7 @@ export async function addDocente(docenteData: DocenteData) {
 }
 
 export async function updateDocente(docenteData: DocenteData, id: number) {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ4NjUwMjE3LCJleHAiOjE3NDg2NTc0MTd9.0-E61aS4g6d3uE_oGYmmsyCO8xao6hl-FAv1tesGvMs";
+  const token = "Agregar tu token de autenticación aquí";
   const res = await fetch(`http://localhost:4000/api/v1/docentes/${id}`, {
     method: "PUT",
     headers: {
@@ -48,8 +46,7 @@ export async function updateDocente(docenteData: DocenteData, id: number) {
 }
 
 export async function deleteDocente(id: number) {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ4NjUwMjE3LCJleHAiOjE3NDg2NTc0MTd9.0-E61aS4g6d3uE_oGYmmsyCO8xao6hl-FAv1tesGvMs";
+  const token = "Agregar tu token de autenticación aquí";
   const res = await fetch(`http://localhost:4000/api/v1/docentes/${id}`, {
     method: "DELETE",
     headers: {
