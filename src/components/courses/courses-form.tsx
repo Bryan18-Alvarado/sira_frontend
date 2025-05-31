@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { set, useForm } from "react-hook-form";
 import { getAllCategories } from "../../app/api/categories.api";
 import { CoursesData } from "../../interface/courses.interface";
-import { addCourse } from "../../app/api/courses.api";
+import { addCourse, updateCourse } from "../../app/api/courses.api";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
@@ -195,6 +195,81 @@ export function CoursesForm() {
           Agregar Curso
         </Button>
       </div>
+    </form>
+  );
+}
+
+export function CourseEditForm() {
+  const { id } = useParams();
+  const router = useRouter();
+
+  const { register, handleSubmit, setValue } = useForm<CoursesData>();
+
+  const onSubmit = handleSubmit(async (data) => {
+    await updateCourse(data, Number(id));
+    router.push("/dashboard/courses");
+    router.refresh();
+  });
+
+  return (
+    <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label>Código</Label>
+          <Input {...register("codigo")} />
+        </div>
+        <div>
+          <Label>Nombre</Label>
+          <Input {...register("nombre")} />
+        </div>
+
+        <div className="md:col-span-2">
+          <Label>Descripción</Label>
+          <Input {...register("descripcion")} />
+        </div>
+
+        <div>
+          <Label>Duración</Label>
+          <Input {...register("duracion")} />
+        </div>
+        <div>
+          <Label>Horario</Label>
+          <Input {...register("horario")} />
+        </div>
+
+        <div>
+          <Label>Fecha de Inicio</Label>
+          <Input type="date" {...register("fecha_inicio")} />
+        </div>
+        <div>
+          <Label>Fecha de Finalización</Label>
+          <Input type="date" {...register("fecha_fin")} />
+        </div>
+
+        <div>
+          <Label>Cupos Disponibles</Label>
+          <Input
+            type="number"
+            {...register("cupos_disponibles", { valueAsNumber: true })}
+          />
+        </div>
+        <div>
+          <Label>Precio</Label>
+          <Input
+            type="number"
+            {...register("precio", { valueAsNumber: true })}
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <Label>Requisitos</Label>
+          <Input {...register("requisitos")} />
+        </div>
+      </div>
+
+      <Button className={buttonVariants({ variant: "agregar" })}>
+        Actualizar Curso
+      </Button>
     </form>
   );
 }

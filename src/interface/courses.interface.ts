@@ -3,17 +3,17 @@ export interface Course {
   categories_id: number;
   categories: {
     id: number;
-    name: string;
+    nombre: string;
   };
   level_id: number;
   level: {
     id: number;
-    name: string;
+    level_course: string;
   };
   docentes_id: number;
-  docente: {
+  docentes: {
     id: number;
-    name: string;
+    nombre: string;
   };
   codigo: string;
   nombre: string;

@@ -76,10 +76,14 @@ export function CoursesTable() {
               <TableRow key={course.id}>
                 <TableCell className="font-medium">{course.id}</TableCell>
                 <TableCell>
-                  {course.categories?.name || "Sin categorias"}
+                  {course.categories?.nombre || "Sin categorias"}
                 </TableCell>
-                <TableCell>{course.level?.name || "sin level"}</TableCell>
-                <TableCell>{course.docente?.name || "sin docente"}</TableCell>
+                <TableCell>
+                  {course.level?.level_course || "sin level"}
+                </TableCell>
+                <TableCell>
+                  {course.docentes?.nombre || "sin docente"}
+                </TableCell>
                 <TableCell>{course.codigo}</TableCell>
                 <TableCell>{course.nombre}</TableCell>
                 <TableCell>{course.descripcion}</TableCell>
