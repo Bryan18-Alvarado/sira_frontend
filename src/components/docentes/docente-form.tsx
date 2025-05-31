@@ -54,14 +54,130 @@ export function DocenteForm() {
   });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label>Nombre</Label>
+          <Input {...register("nombre")} />
+        </div>
+        <div>
+          <Label>Apellido</Label>
+          <Input {...register("apellido")} />
+        </div>
+
+        <div>
+          <Label>Edad</Label>
+          <Input type="number" {...register("edad", { valueAsNumber: true })} />
+        </div>
+        <div>
+          <Label>Código Laboral</Label>
+          <Input
+            type="number"
+            {...register("codigo_laboral", {
+              valueAsNumber: true,
+              min: 5,
+              required: true,
+            })}
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <Label>Cursos Asignados</Label>
+          <Input {...register("cursos_asignados")} />
+        </div>
+
+        <div>
+          <Label>Dirección</Label>
+          <Input {...register("direccion")} />
+        </div>
+        <div>
+          <Label>Teléfono</Label>
+          <Input {...register("telefono")} />
+        </div>
+
+        <div>
+          <Label>Email</Label>
+          <Input {...register("email")} />
+        </div>
+        <div>
+          <Label>Fecha Ingreso</Label>
+          <Input {...register("fecha_ingreso")} type="date" />
+        </div>
+
+        <div>
+          <Label>Fecha Nacimiento</Label>
+          <Input {...register("fecha_nacimiento")} type="date" />
+        </div>
+
+        <div>
+          <Label>Género</Label>
+          <Select
+            onValueChange={(value) => setValue("genero_id", parseInt(value))}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona un género" />
+            </SelectTrigger>
+            <SelectContent>
+              {genders.map((gender) => (
+                <SelectItem key={gender.id} value={gender.id.toString()}>
+                  {gender.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label>Estado Civil</Label>
+          <Select
+            onValueChange={(value) =>
+              setValue("estado_civil_id", parseInt(value))
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona tu estado civil" />
+            </SelectTrigger>
+            <SelectContent>
+              {maritalStatus.map((estado) => (
+                <SelectItem key={estado.id} value={estado.id.toString()}>
+                  {estado.marital_status}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="pt-4">
+        <Button className={buttonVariants({ variant: "agregar" })}>
+          Agregar Docente
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+export function DocenteEditForm() {
+  const { id } = useParams();
+  const router = useRouter();
+
+  const { register, handleSubmit } = useForm<DocenteData>({});
+
+  const onSubmit = handleSubmit(async (data) => {
+    await updateDocente(data, Number(id));
+    router.push("/dashboard/docentes/");
+    router.refresh();
+  });
+
+  return (
+    <form onSubmit={onSubmit}>
       <Label>Nombre</Label>
       <Input {...register("nombre")} />
-      <Label>apellido</Label>
+      <Label>Apellido</Label>
       <Input {...register("apellido")} />
-      <Label>edad</Label>
+      <Label>Edad</Label>
       <Input type="number" {...register("edad", { valueAsNumber: true })} />
-      <Label>codigo laboral</Label>
+      <Label>Código Laboral</Label>
       <Input
         type="number"
         {...register("codigo_laboral", {
@@ -70,51 +186,21 @@ export function DocenteForm() {
           required: true, // si es obligatorio
         })}
       />
-      <Label>cursos asignados</Label>
+      <Label>Cursos Asignados</Label>
       <Input {...register("cursos_asignados")} />
-      <Label>direccion</Label>
+      <Label>Dirección</Label>
       <Input {...register("direccion")} />
-      <Label>fecha ingreso</Label>
+      <Label>Fecha Ingreso</Label>
       <Input {...register("fecha_ingreso")} type="date" />
-      <Label>fecha nacimiento</Label>
+      <Label>Fecha Nacimiento</Label>
       <Input {...register("fecha_nacimiento")} type="date" />
-      <Label>telefono</Label>
+      <Label>Teléfono</Label>
       <Input {...register("telefono")} />
-      <Label>email</Label>
+      <Label>Email</Label>
       <Input {...register("email")} />
 
-      <Label>Genero</Label>
-      <Select onValueChange={(value) => setValue("genero_id", parseInt(value))}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Selecciona un genero" />
-        </SelectTrigger>
-        <SelectContent>
-          {genders.map((gender) => (
-            <SelectItem key={gender.id} value={gender.id.toString()}>
-              {gender.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
-      <Label>Estado Civil</Label>
-      <Select
-        onValueChange={(value) => setValue("estado_civil_id", parseInt(value))}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Selecciona tu estado civil" />
-        </SelectTrigger>
-        <SelectContent>
-          {maritalStatus.map((estado) => (
-            <SelectItem key={estado.id} value={estado.id.toString()}>
-              {estado.marital_status}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
       <Button className={buttonVariants({ variant: "agregar" })}>
-        Agregar Docente
+        Actualizar Docente
       </Button>
     </form>
   );
