@@ -1,19 +1,20 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CourseEditForm } from "../../../../components/courses/courses-form";
-function CursosEditPage() {
+import { CoursesTable } from "../../../components/courses/courses-table";
+
+function CoursesTablePage() {
   return (
-    <div className="h-screen flex justify-center items-center shadow-sm">
+    <div className="container mx-auto py-8">
       <Card className="w-full max-w-6xl mx-auto">
         <CardHeader>
-          <CardTitle>Editar Curso</CardTitle>
+          <CardTitle>Tabla de Cursos</CardTitle>
         </CardHeader>
         <CardContent>
-          <CourseEditForm />
+          <CoursesTable />
         </CardContent>
       </Card>
     </div>
   );
 }
 
-export default CursosEditPage;
+export default CoursesTablePage;

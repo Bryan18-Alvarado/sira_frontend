@@ -31,10 +31,9 @@ const menuItems = [
   {
     icon: <IoBookSharp />,
     title: "Cursos",
-    path: "/dashboard/cursos",
+    path: "/dashboard/courses",
   },
 ];
-
 export const Sidebar = () => {
   return (
     <aside
