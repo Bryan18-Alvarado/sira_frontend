@@ -170,38 +170,71 @@ export function DocenteEditForm() {
   });
 
   return (
-    <form onSubmit={onSubmit}>
-      <Label>Nombre</Label>
-      <Input {...register("nombre")} />
-      <Label>Apellido</Label>
-      <Input {...register("apellido")} />
-      <Label>Edad</Label>
-      <Input type="number" {...register("edad", { valueAsNumber: true })} />
-      <Label>Código Laboral</Label>
-      <Input
-        type="number"
-        {...register("codigo_laboral", {
-          valueAsNumber: true,
-          min: 5,
-          required: true, // si es obligatorio
-        })}
-      />
-      <Label>Cursos Asignados</Label>
-      <Input {...register("cursos_asignados")} />
-      <Label>Dirección</Label>
-      <Input {...register("direccion")} />
-      <Label>Fecha Ingreso</Label>
-      <Input {...register("fecha_ingreso")} type="date" />
-      <Label>Fecha Nacimiento</Label>
-      <Input {...register("fecha_nacimiento")} type="date" />
-      <Label>Teléfono</Label>
-      <Input {...register("telefono")} />
-      <Label>Email</Label>
-      <Input {...register("email")} />
+    <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label>Nombre</Label>
+          <Input {...register("nombre")} />
+        </div>
 
-      <Button className={buttonVariants({ variant: "agregar" })}>
-        Actualizar Docente
-      </Button>
+        <div>
+          <Label>Apellido</Label>
+          <Input {...register("apellido")} />
+        </div>
+
+        <div>
+          <Label>Edad</Label>
+          <Input type="number" {...register("edad", { valueAsNumber: true })} />
+        </div>
+
+        <div>
+          <Label>Código Laboral</Label>
+          <Input
+            type="number"
+            {...register("codigo_laboral", {
+              valueAsNumber: true,
+              min: 5,
+              required: true,
+            })}
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <Label>Cursos Asignados</Label>
+          <Input {...register("cursos_asignados")} />
+        </div>
+
+        <div>
+          <Label>Dirección</Label>
+          <Input {...register("direccion")} />
+        </div>
+
+        <div>
+          <Label>Teléfono</Label>
+          <Input {...register("telefono")} />
+        </div>
+
+        <div>
+          <Label>Email</Label>
+          <Input {...register("email")} />
+        </div>
+
+        <div>
+          <Label>Fecha Ingreso</Label>
+          <Input {...register("fecha_ingreso")} type="date" />
+        </div>
+
+        <div>
+          <Label>Fecha Nacimiento</Label>
+          <Input {...register("fecha_nacimiento")} type="date" />
+        </div>
+      </div>
+
+      <div className="pt-4">
+        <Button className={buttonVariants({ variant: "agregar" })}>
+          Actualizar Docente
+        </Button>
+      </div>
     </form>
   );
 }

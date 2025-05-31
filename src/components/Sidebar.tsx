@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  IoBookSharp,
   IoCalendarOutline,
   IoCheckboxOutline,
   IoListOutline,
+  IoPeopleSharp,
+  IoPersonSharp,
 } from "react-icons/io5";
 
 import { SidebarItem } from "./SidebarItem";
@@ -16,14 +19,19 @@ const menuItems = [
     path: "/dashboard",
   },
   {
-    icon: <IoCheckboxOutline />,
+    icon: <IoPersonSharp />,
     title: "Docentes",
     path: "/dashboard/docentes",
   },
   {
-    icon: <IoListOutline />,
+    icon: <IoPeopleSharp />,
     title: "Estudiantes",
     path: "/dashboard/students",
+  },
+  {
+    icon: <IoBookSharp />,
+    title: "Cursos",
+    path: "/dashboard/cursos",
   },
 ];
 
