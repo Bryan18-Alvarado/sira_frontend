@@ -68,6 +68,7 @@ export function CoursesTable() {
               <TableHead>cupos disponibles</TableHead>
               <TableHead>requisitos</TableHead>
               <TableHead>precio</TableHead>
+              <TableHead>Estado</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
@@ -94,6 +95,7 @@ export function CoursesTable() {
                 <TableCell>{course.cupos_disponibles}</TableCell>
                 <TableCell>{course.requisitos}</TableCell>
                 <TableCell>{course.precio}</TableCell>
+                <TableCell>{course.status ? "Activo" : "Inactivo"}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
                     <Link href={`/dashboard/courses/${course.id}`}>
