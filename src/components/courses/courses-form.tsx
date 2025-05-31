@@ -203,7 +203,7 @@ export function CourseEditForm() {
   const { id } = useParams();
   const router = useRouter();
 
-  const { register, handleSubmit, setValue } = useForm<CoursesData>();
+  const { register, handleSubmit } = useForm<CoursesData>();
 
   const onSubmit = handleSubmit(async (data) => {
     await updateCourse(data, Number(id));

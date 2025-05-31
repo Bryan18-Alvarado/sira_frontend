@@ -5,6 +5,7 @@ import {
   IoCalendarOutline,
   IoCheckboxOutline,
   IoListOutline,
+  IoNewspaperSharp,
   IoPeopleSharp,
   IoPersonSharp,
 } from "react-icons/io5";
@@ -29,6 +30,11 @@ const menuItems = [
     path: "/dashboard/students",
   },
   {
+    icon: <IoNewspaperSharp />,
+    title: "Categorias",
+    path: "/dashboard/categories",
+  },
+  {
     icon: <IoBookSharp />,
     title: "Cursos",
     path: "/dashboard/courses",
@@ -42,26 +48,27 @@ export const Sidebar = () => {
     >
       <div>
         <div className="-mx-6 px-6 py-4">
-          <Link href="#" title="home">
+          <Link href="/" title="home">
             <Image
-              src="https://images.vexels.com/media/users/3/147726/isolated/svg/3c35c23c922833a71a94e7d5faf28b88.svg"
-              alt="tailus logo"
+              src="/images/logo.png"
+              alt="logo"
               width={50}
               height={50}
+              className="rounded-full"
             />
           </Link>
         </div>
 
         <div className="mt-8 text-center">
           <Image
-            src="https://wallpapers.com/images/high/camila-cabello-close-up-shot-vi4rwv9t7y8pv91f.webp"
+            src="/images/beethoven.jpg"
             width={150}
             height={150}
             alt="Profile"
             className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
           />
           <h5 className="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">
-            Katia Silva
+            Bryan Alvarado
           </h5>
           <span className="hidden text-gray-400 lg:block">Admin</span>
         </div>
