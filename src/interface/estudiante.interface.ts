@@ -1,9 +1,10 @@
-export interface Estudent {
+export interface Student {
   id: number;
   nombre: string;
   apellido: string;
   fechaNacimiento: Date;
-  generoId: {
+  generoId: number;
+  genero: {
     id: number;
     nombre: string;
   };
@@ -17,7 +18,7 @@ export interface Estudent {
   isAvailable?: boolean;
 }
 
-export interface EstudentData {
+export interface StudentData {
   id: number;
   nombre: string;
   apellido: string;
@@ -28,7 +29,7 @@ export interface EstudentData {
   direccion?: string;
 }
 
-export interface EstudentResponse {
-  data: Estudent[];
+export interface StudentResponse {
+  data: Student[];
   total: number;
 }
