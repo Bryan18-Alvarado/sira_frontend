@@ -2,11 +2,11 @@ export interface Student {
   id: number;
   nombre: string;
   apellido: string;
-  fechaNacimiento: Date;
-  generoId: number;
+  fechaNacimiento: string;
+  genero_id: number;
   genero: {
     id: number;
-    nombre: string;
+    name: string;
   };
   telefono?: string;
   correoElectronico: string;
@@ -23,10 +23,10 @@ export interface StudentData {
   nombre: string;
   apellido: string;
   fechaNacimiento: Date;
-  generoId: number;
-  telefono?: string;
+  genero_id: number;
+  telefono: string;
   correoElectronico: string;
-  direccion?: string;
+  direccion: string;
 }
 
 export interface StudentResponse {

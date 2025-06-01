@@ -16,7 +16,7 @@ export async function getEstudiantesAll(
 }
 
 export async function addStudent(StudentData: StudentData) {
-  const res = await fetch("http://localhost:4000/api/vi/estudiantes", {
+  const res = await fetch("http://localhost:4000/api/v1/estudiantes", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,14 +28,20 @@ export async function addStudent(StudentData: StudentData) {
 }
 
 export async function deleteStudent(id: number) {
-  const res = await fetch(`http://localhost:4000/api/vi/estudiantes/${id}`, {
+  const res = await fetch(`http://localhost:4000/api/v1/estudiantes/${id}`, {
     method: "DELETE",
   });
 
   return res.json();
 }
-export async function updateEstudent(id: number, StudentData: StudentData) {
-  const res = await fetch(`http://localhost:4000/api/vi/estudinates/${id}`, {
+
+export async function getStudentById(id: number): Promise<StudentData> {
+  const res = await fetch(`http://localhost:4000/api/v1/estudiantes/${id}`);
+  return res.json();
+}
+
+export async function updateEstudent(StudentData: StudentData, id: number) {
+  const res = await fetch(`http://localhost:4000/api/v1/estudiantes/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -45,3 +51,4 @@ export async function updateEstudent(id: number, StudentData: StudentData) {
 
   return res.json();
 }
+

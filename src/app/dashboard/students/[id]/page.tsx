@@ -1,16 +1,16 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { StudentForm } from "../../../../components/students/student-form";
+import { StudentEditForm } from "../../../../components/students/student-form";
 
 function CarsAddPage() {
   return (
     <div className="h-screen flex justify-center items-center">
       <Card>
         <CardHeader>
-          <CardTitle>Agregar Estudiante</CardTitle>
+          <CardTitle>Editar Estudiante</CardTitle>
         </CardHeader>
         <CardContent>
-          <StudentForm />
+          <StudentEditForm />
         </CardContent>
       </Card>
     </div>

@@ -7,7 +7,7 @@ function StudentTablePage() {
     <div className="container mx-auto py-8">
       <Card className="w-full max-w-6xl mx-auto">
         <CardHeader>
-          <CardTitle>Tabla de Autos</CardTitle>
+          <CardTitle>Tabla de Estudiantes</CardTitle>
         </CardHeader>
         <CardContent>
           <StudentTable />
