@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { BiPencil, BiTrash } from "react-icons/bi";
+import Swal from "sweetalert2";
 
 // interface StudentResponse {
 //   data: Student[];
@@ -40,8 +41,24 @@ export function StudentTable() {
   }, []);
 
   const handDeleteStudent = async (id: number) => {
-    await deleteStudent(id);
-    loadStudent(offset);
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás deshacer esta acción!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteStudent(id);
+        Swal.fire("Eliminado", "El estudiante ha sido eliminado.", "success");
+        loadStudent(offset);
+      } catch (error) {
+        Swal.fire("Error", "No se pudo eliminar el estudiante.", "error");
+      }
+    }
   };
 
   async function downloadExcel() {
