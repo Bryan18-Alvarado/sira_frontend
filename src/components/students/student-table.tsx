@@ -44,15 +44,39 @@ export function StudentTable() {
     loadStudent(offset);
   };
 
+  async function downloadExcel() {
+    try {
+      const res = await fetch(
+        "http://localhost:4000/api/v1/report/excel/students"
+      );
+      if (!res.ok) throw new Error("Error al descargar el reporte");
+      const blob = await res.blob();
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "estudiantes.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error al descargar el reporte:", error);
+    }
+  }
+
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-x-4">
+        <Button variant="outline" onClick={downloadExcel}>
+          Descargar Reporte Excel
+        </Button>
         <Link
           href="/dashboard/students/add"
           className={buttonVariants({ variant: "agregar" })}
         >
           <PiPlusCircleBold className="mr-2 h-4 w-4" />
-          Agregar Auto
+          Agregar Estudiante
         </Link>
       </div>
 
@@ -77,23 +101,14 @@ export function StudentTable() {
                 <TableCell className="font-medium">{student.id}</TableCell>
                 <TableCell>{student.nombre}</TableCell>
                 <TableCell>{student.apellido}</TableCell>
-                <TableCell>
-                  {new Date(student.fechaNacimiento).toLocaleDateString(
-                    "es-ES",
-                    {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
-                  )}
-                </TableCell>{" "}
-                <TableCell>{student.genero?.nombre || "Sin genero"}</TableCell>
+                <TableCell>{student.fechaNacimiento}</TableCell>{" "}
+                <TableCell>{student.genero?.name || "Sin genero"}</TableCell>
                 <TableCell>{student.telefono}</TableCell>
                 <TableCell>{student.correoElectronico}</TableCell>
                 <TableCell>{student.direccion}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/dashboard/estudents/${student.id}/edit`}>
+                    <Link href={`/dashboard/students/${student.id}`}>
                       <Button
                         size="sm"
                         className="bg-blue-600 text-white :hover:bg-blue-700"
