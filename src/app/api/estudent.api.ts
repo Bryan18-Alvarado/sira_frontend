@@ -1,46 +1,46 @@
 import {
-  EstudentResponse,
-  EstudentData,
+  StudentData,
+  StudentResponse,
 } from "../../interface/estudiante.interface";
 
-export async function getAllEstudents(
+export async function getEstudiantesAll(
   offet: number = 0,
   limit: number = 3
-): Promise<EstudentResponse> {
+): Promise<StudentResponse> {
   const response = await fetch(
-    `http://localhost:4000/api/vi/estudents?offset=${offet}&limit=${limit}`,
+    `http://localhost:4000/api/v1/estudiantes?offset=${offet}&limit=${limit}`,
     { cache: "no-store" }
   );
 
   return response.json();
 }
 
-export async function addEstudent(EstudentData: EstudentData) {
-  const res = await fetch("http://localhost:3000/api/vi/estudents", {
+export async function addStudent(StudentData: StudentData) {
+  const res = await fetch("http://localhost:4000/api/vi/estudiantes", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(EstudentData),
+    body: JSON.stringify(StudentData),
   });
 
   return res.json();
 }
 
-export async function deleteEstudent(id: number) {
-  const res = await fetch(`http://localhost:3000/api/vi/estudents/${id}`, {
+export async function deleteStudent(id: number) {
+  const res = await fetch(`http://localhost:4000/api/vi/estudiantes/${id}`, {
     method: "DELETE",
   });
 
   return res.json();
 }
-export async function updateEstudent(id: number, EstudentData: EstudentData) {
-  const res = await fetch(`http://localhost:3000/api/vi/estudents/${id}`, {
+export async function updateEstudent(id: number, StudentData: StudentData) {
+  const res = await fetch(`http://localhost:4000/api/vi/estudinates/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(EstudentData),
+    body: JSON.stringify(StudentData),
   });
 
   return res.json();
