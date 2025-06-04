@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,7 +27,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <main className="container mx-auto pt-5">{children}</main>
+        <SessionProvider>
+          <main className="container mx-auto pt-5">{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );

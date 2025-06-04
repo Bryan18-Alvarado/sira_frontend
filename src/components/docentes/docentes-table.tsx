@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
+import { useSession } from "next-auth/react";
 
 interface DocenteResponse {
   data: Docente[];
@@ -23,6 +24,8 @@ interface DocenteResponse {
 export function DocenteTable() {
   const [offset, setOffset] = useState(0);
   const [limit] = useState(3);
+  const { data: session } = useSession();
+
   const [docenteData, setDocenteData] = useState<DocenteResponse>({
     data: [],
     total: 0,
@@ -104,7 +107,7 @@ export function DocenteTable() {
                       size="sm"
                       className="bg-destructive text-destructive-foreground"
                       onClick={async () => {
-                        await deleteDocente(docente.id);
+                        await deleteDocente(docente.id, session?.user?.token);
                         setDocenteData((prev) => ({
                           ...prev,
                           data: prev.data.filter((c) => c.id !== docente.id),
