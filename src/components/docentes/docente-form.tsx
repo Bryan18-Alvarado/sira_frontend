@@ -19,12 +19,14 @@ import { getAllMaritalStatus } from "../../app/api/estado-civil.api";
 import { useSession } from "next-auth/react";
 import { getAllCourses } from "../../app/api/courses.api";
 
+
 export const metadata = {
   title: "Agregar Docente",
   description: "Agregar un nuevo docente al sistema",
 };
 
 export function DocenteForm() {
+  const { data: session } = useSession();
   const { register, handleSubmit, setValue } = useForm<DocenteData>();
   const router = useRouter();
   const [genders, setGenders] = useState<{ id: number; name: string }[]>([]);
@@ -60,8 +62,12 @@ export function DocenteForm() {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
+    if (!session?.user?.token) {
+      alert("No autenticado");
+      return;
+    }
     console.log(data);
-    await addDocente(data);
+    await addDocente(data, session?.user?.token);
     router.push("/dashboard/docentes");
     router.refresh();
   });
@@ -189,10 +195,12 @@ export function DocenteEditForm() {
   const { id } = useParams();
   const router = useRouter();
 
+  const { data: session } = useSession();
+
   const { register, handleSubmit } = useForm<DocenteData>({});
 
   const onSubmit = handleSubmit(async (data) => {
-    await updateDocente(data, Number(id));
+    await updateDocente(data, Number(id), session?.user?.token);
     router.push("/dashboard/docentes/");
     router.refresh();
   });
