@@ -82,7 +82,9 @@ export function DocenteTable() {
                   {docente.estado_civil?.marital_status || "Sin estado"}
                 </TableCell>
                 <TableCell>{docente.codigo_laboral}</TableCell>
-                <TableCell>{docente.cursos_asignados}</TableCell>
+                <TableCell>
+                  {docente.cursos_asignados?.nombre || "Sin cursos asignados"}
+                </TableCell>
                 <TableCell>{docente.direccion || "-"}</TableCell>
                 <TableCell>{docente.fecha_ingreso}</TableCell>
                 <TableCell>{docente.fecha_nacimiento}</TableCell>
