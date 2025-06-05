@@ -3,6 +3,8 @@ import {
   DocenteResponse,
 } from "../../interface/docente.interface";
 
+const API_URL = "http://localhost:4000/api/v1/docentes";
+
 import { auth } from "@/auth";
 
 export async function getAllDocentes(
@@ -10,9 +12,7 @@ export async function getAllDocentes(
   limit: number = 3
 ): Promise<DocenteResponse> {
   const response = await fetch(
-    `http://localhost:4000/api/v1/docentes?offset=${Number(
-      offset
-    )}&limit=${Number(limit)}`,
+    `${API_URL}?offset=${Number(offset)}&limit=${Number(limit)}`,
     { cache: "no-store" }
   );
 
@@ -24,7 +24,7 @@ export async function addDocente(
   token: string | undefined
 ) {
   if (!token) throw new Error("Token no encontrado");
-  const res = await fetch("http://localhost:4000/api/v1/docentes", {
+  const res = await fetch(API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,7 +42,8 @@ export async function updateDocente(
   token: string | undefined
 ) {
   if (!token) throw new Error("Token no encontrado");
-  const res = await fetch(`http://localhost:4000/api/v1/docentes/${id}`, {
+  const res = await fetch(`${API_URL}/${id}`, {
+
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -56,7 +57,7 @@ export async function updateDocente(
 
 export async function deleteDocente(id: number, token: string | undefined) {
   if (!token) throw new Error("Token no encontrado");
-  const res = await fetch(`http://localhost:4000/api/v1/docentes/${id}`, {
+  const res = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,

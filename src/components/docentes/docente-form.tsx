@@ -17,6 +17,8 @@ import { getAllGenders } from "../../app/api/genders.api";
 import { DocenteData } from "../../interface/docente.interface";
 import { getAllMaritalStatus } from "../../app/api/estado-civil.api";
 import { useSession } from "next-auth/react";
+import { getAllCourses } from "../../app/api/courses.api";
+
 
 export const metadata = {
   title: "Agregar Docente",
@@ -30,6 +32,9 @@ export function DocenteForm() {
   const [genders, setGenders] = useState<{ id: number; name: string }[]>([]);
   const [maritalStatus, setMaritalStatus] = useState<
     { id: number; marital_status: string }[]
+  >([]);
+  const [cursoAsignado, setCursoAsignado] = useState<
+    { id: number; nombre: string }[]
   >([]);
 
   useEffect(() => {
@@ -46,6 +51,14 @@ export function DocenteForm() {
       setMaritalStatus(res.data);
     };
     fetchMaritalStatus();
+  }, []);
+
+  useEffect(() => {
+    const fetchCursosAsignados = async () => {
+      const res = await getAllCourses(0, 100);
+      setCursoAsignado(res.data);
+    };
+    fetchCursosAsignados();
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -88,8 +101,23 @@ export function DocenteForm() {
         </div>
 
         <div className="md:col-span-2">
-          <Label>Cursos Asignados</Label>
-          <Input {...register("cursos_asignados")} />
+          <Label>Cursos asignados</Label>
+          <Select
+            onValueChange={(value) =>
+              setValue("cursos_asignados_id", parseInt(value))
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona tu curso" />
+            </SelectTrigger>
+            <SelectContent>
+              {cursoAsignado.map((curso) => (
+                <SelectItem key={curso.id} value={curso.id.toString()}>
+                  {curso.nombre}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
@@ -209,7 +237,7 @@ export function DocenteEditForm() {
 
         <div className="md:col-span-2">
           <Label>Cursos Asignados</Label>
-          <Input {...register("cursos_asignados")} />
+          <Input {...register("cursos_asignados_id")} />
         </div>
 
         <div>
