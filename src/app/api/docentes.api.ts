@@ -5,6 +5,8 @@ import {
 
 const API_URL = "http://localhost:4000/api/v1/docentes";
 
+const API_URL = "http://localhost:4000/api/v1/docentes";
+
 export async function getAllDocentes(
   offset: number = 0,
   limit: number = 3
