@@ -1,32 +1,73 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { PiBooksBold, PiUsersBold } from "react-icons/pi";
+
 export const WidgetItem = () => {
+  const [totalCourses, setTotalCourses] = useState<number | null>(null);
+  const [totalActiveStudents, setTotalActiveStudents] = useState<number | null>(
+    null
+  );
+
+  const fetchTotalCourses = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/v1/courses?limit=1");
+      const json = await res.json();
+      setTotalCourses(json.total);
+    } catch (error) {
+      console.error("Error cargando total de cursos:", error);
+    }
+  };
+
+  const fetchTotalActiveStudents = async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:4000/api/v1/students/active?limit=1"
+      );
+      const json = await res.json();
+      setTotalActiveStudents(json.total);
+    } catch (error) {
+      console.error("Error cargando total de estudiantes activos:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTotalCourses();
+    fetchTotalActiveStudents();
+  }, []);
+
   return (
-    <div className="md:col-span-2 lg:col-span-1">
-      <div className="h-full py-8 px-6 space-y-6 rounded-xl border border-gray-200 bg-white">
-        <div>
-          <h5 className="text-xl text-gray-600 text-center">
-            Global Activities
-          </h5>
-          <div className="mt-2 flex justify-center gap-4">
-            <h3 className="text-3xl font-bold text-gray-700">$23,988</h3>
-            <div className="flex items-end gap-1 text-green-500">
-              <svg
-                className="w-3"
-                viewBox="0 0 12 15"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M6.00001 0L12 8H-3.05176e-05L6.00001 0Z"
-                  fill="currentColor"
-                />
-              </svg>
-              <span>2%</span>
-            </div>
-          </div>
-          <span className="block text-center text-gray-500">
-            Compared to last week $13,988
-          </span>
+    <div className="flex flex-col gap-8 max-w-5xl mx-auto w-full px-4">
+      {/* Card Total Cursos */}
+      <div className="w-full h-full py-10 px-8 space-y-6 rounded-xl bg-blue-600 shadow-lg text-white flex flex-col items-center">
+        <div className="flex items-center gap-4">
+          <PiBooksBold size={48} />
+          <h5 className="text-2xl font-semibold">Total Cursos</h5>
         </div>
+        <div className="mt-4 flex items-center gap-6">
+          <h3 className="text-5xl font-extrabold">
+            {totalCourses !== null ? totalCourses : "Cargando..."}
+          </h3>
+        </div>
+        <span className="text-center text-blue-200 text-lg">
+          Cursos registrados en el sistema
+        </span>
+      </div>
+
+      {/* Card Total Estudiantes Activos */}
+      <div className="w-full h-full py-10 px-8 space-y-6 rounded-xl bg-blue-600 shadow-lg text-white flex flex-col items-center">
+        <div className="flex items-center gap-4">
+          <PiUsersBold size={48} />
+          <h5 className="text-2xl font-semibold">Estudiantes Activos</h5>
+        </div>
+        <div className="mt-4 flex items-center gap-6">
+          <h3 className="text-5xl font-extrabold">
+            {totalActiveStudents !== null ? totalActiveStudents : "Cargando..."}
+          </h3>
+        </div>
+        <span className="text-center text-blue-200 text-lg">
+          Estudiantes activos en el sistema
+        </span>
       </div>
     </div>
   );
