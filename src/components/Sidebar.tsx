@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,35 +15,87 @@ import {
 import { SidebarItem } from "./SidebarItem";
 import { CiLogout } from "react-icons/ci";
 import { signOutAndRedirect } from "../app/signOut/page";
+import { useSession } from "next-auth/react";
 
-const menuItems = [
-  {
-    icon: <IoCalendarOutline />,
-    title: "Dashboard",
-    path: "/dashboard",
-  },
-  {
-    icon: <IoPersonSharp />,
-    title: "Docentes",
-    path: "/dashboard/docentes",
-  },
-  {
-    icon: <IoPeopleSharp />,
-    title: "Estudiantes",
-    path: "/dashboard/students",
-  },
-  {
-    icon: <IoNewspaperSharp />,
-    title: "Categorias",
-    path: "/dashboard/categories",
-  },
-  {
-    icon: <IoBookSharp />,
-    title: "Cursos",
-    path: "/dashboard/courses",
-  },
-];
+const menuByRole = {
+  admin: [
+    {
+      icon: <IoCalendarOutline />,
+      title: "Dashboard",
+      path: "/dashboard/admin",
+    },
+    {
+      icon: <IoPersonSharp />,
+      title: "Docentes",
+      path: "/dashboard/admin/docentes",
+    },
+    {
+      icon: <IoPeopleSharp />,
+      title: "Estudiantes",
+      path: "/dashboard/admin/students",
+    },
+    {
+      icon: <IoNewspaperSharp />,
+      title: "Categorias",
+      path: "/dashboard/admin/categories",
+    },
+    {
+      icon: <IoBookSharp />,
+      title: "Cursos",
+      path: "/dashboard/admin/courses",
+    },
+  ],
+  docente: [
+    {
+      icon: <IoCalendarOutline />,
+      title: "Inicio",
+      path: "/dashboard/docente",
+    },
+    {
+      icon: <IoCheckboxOutline />,
+      title: "Mis Cursos",
+      path: "/dashboard/docente/cursos",
+    },
+    {
+      icon: <IoCheckboxOutline />,
+      title: "Cursos Activos",
+      path: "/dashboard/docente/cursos-activos",
+    },
+    {
+      icon: <IoListOutline />,
+      title: "Calificaciones",
+      path: "/dashboard/docente/calificaciones",
+    },
+  ],
+  estudiante: [
+    {
+      icon: <IoCalendarOutline />,
+      title: "Inicio",
+      path: "/dashboard/estudiante",
+    },
+    {
+      icon: <IoBookSharp />,
+      title: "Mis Cursos",
+      path: "/dashboard/estudiante/cursos",
+    },
+    {
+      icon: <IoCheckboxOutline />,
+      title: "Calificaciones",
+      path: "/dashboard/estudiante/calificaciones",
+    },
+  ],
+};
 export const Sidebar = () => {
+  const { data: session, status } = useSession();
+
+  if (status === "loading") {
+    return <div className="p-4">Cargando menú...</div>;
+  }
+
+  const roles = session?.user?.roles ?? [];
+  const role = roles.find((r) => r !== "user");
+
+  const menuItems = menuByRole[role as keyof typeof menuByRole] ?? [];
   return (
     <aside
       className="fixed z-10 top-0 left-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300
@@ -69,9 +123,11 @@ export const Sidebar = () => {
             className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
           />
           <h5 className="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">
-            Bryan Alvarado
+            {session?.user?.fullName ?? "Usuario"}
           </h5>
-          <span className="hidden text-gray-400 lg:block">Admin</span>
+          <span className="hidden text-gray-400 lg:block">
+            {role ? role.charAt(0).toUpperCase() + role.slice(1) : "Sin rol"}
+          </span>
         </div>
 
         <ul className="space-y-2 tracking-wide mt-8">

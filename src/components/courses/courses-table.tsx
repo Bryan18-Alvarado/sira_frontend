@@ -42,7 +42,7 @@ export function CoursesTable() {
     <div className="space-y-4">
       <div className="flex justify-end">
         <Link
-          href="/dashboard/courses/add"
+          href="/dashboard/admin/courses/add"
           className={buttonVariants({ variant: "agregar" })}
         >
           <PiPlusCircleBold className="mr-2 h-4 w-4" />
@@ -98,7 +98,7 @@ export function CoursesTable() {
                 <TableCell>{course.status ? "Activo" : "Inactivo"}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/dashboard/courses/${course.id}`}>
+                    <Link href={`/dashboard/admin/courses/${course.id}`}>
                       <Button
                         size="sm"
                         className="bg-blue-600 text-white hover:bg-blue-700"

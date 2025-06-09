@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CategoriesTable } from "../../../components/categories/categories-table";
+import { CategoriesTable } from "../../../../components/categories/categories-table";
 function CoursesTablePage() {
   return (
     <div className="container mx-auto py-8">

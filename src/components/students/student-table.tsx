@@ -89,7 +89,7 @@ export function StudentTable() {
           Descargar Reporte Excel
         </Button>
         <Link
-          href="/dashboard/students/add"
+          href="/dashboard/admin/students/add"
           className={buttonVariants({ variant: "agregar" })}
         >
           <PiPlusCircleBold className="mr-2 h-4 w-4" />
@@ -125,7 +125,7 @@ export function StudentTable() {
                 <TableCell>{student.direccion}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/dashboard/students/${student.id}`}>
+                    <Link href={`/dashboard/admin/students/${student.id}`}>
                       <Button
                         size="sm"
                         className="bg-blue-600 text-white :hover:bg-blue-700"

@@ -31,8 +31,9 @@ const config = {
 
         return {
           id: user.id,
-          name: user.fullName,
+          fullName: user.fullName,
           email: user.email,
+          roles: user.roles,
           token: user.token,
         };
       },
@@ -43,17 +44,22 @@ const config = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.fullName = user.fullName;
         token.accessToken = user.token;
         token.email = user.email;
+        token.roles = user.roles || [];
       }
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
+        session.user.fullName = token.fullName as string | null;
         session.user.token = token.accessToken as string;
         session.user.email = token.email as string;
+        session.user.roles = token.roles as string[];
       }
+
       return session;
     },
   },

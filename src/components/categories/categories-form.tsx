@@ -18,7 +18,7 @@ export function CategoriesForm() {
 
   const onSubmit = handleSubmit(async (data) => {
     await addCategory(data);
-    router.push("/dashboard/categories");
+    router.push("/dashboard/admin/categories");
     router.refresh();
   });
 

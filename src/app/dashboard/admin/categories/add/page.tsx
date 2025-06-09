@@ -1,20 +1,19 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { StudentForm } from "../../../../components/students/student-form";
-
-function CarsAddPage() {
+import { CategoriesForm } from "../../../../../components/categories/categories-form";
+function CategoriesAddPage() {
   return (
     <div className="h-screen flex justify-center items-center">
       <Card>
         <CardHeader>
-          <CardTitle>Agregar Estudiante</CardTitle>
+          <CardTitle>Agregar Nueva Categoria</CardTitle>
         </CardHeader>
         <CardContent>
-          <StudentForm />
+          <CategoriesForm />
         </CardContent>
       </Card>
     </div>
   );
 }
 
-export default CarsAddPage;
+export default CategoriesAddPage;

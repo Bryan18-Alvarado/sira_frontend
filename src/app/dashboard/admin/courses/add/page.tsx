@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CoursesForm } from "../../../../components/courses/courses-form";
+import { CoursesForm } from "../../../../../components/courses/courses-form";
 function CoursesAddPage() {
   return (
     <div className="h-screen flex justify-center items-center">

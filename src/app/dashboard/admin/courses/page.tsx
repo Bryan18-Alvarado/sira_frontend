@@ -1,20 +1,20 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import StudentTable from "../../../components/students/student-table";
+import { CoursesTable } from "../../../../components/courses/courses-table";
 
-function StudentTablePage() {
+function CoursesTablePage() {
   return (
     <div className="container mx-auto py-8">
       <Card className="w-full max-w-6xl mx-auto">
         <CardHeader>
-          <CardTitle>Tabla de Estudiantes</CardTitle>
+          <CardTitle>Tabla de Cursos</CardTitle>
         </CardHeader>
         <CardContent>
-          <StudentTable />
+          <CoursesTable />
         </CardContent>
       </Card>
     </div>
   );
 }
 
-export default StudentTablePage;
+export default CoursesTablePage;
