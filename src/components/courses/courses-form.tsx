@@ -60,7 +60,7 @@ export function CoursesForm() {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     await addCourse(data);
-    router.push("/dashboard/courses");
+    router.push("/dashboard/admin/courses");
     router.refresh();
   });
 
@@ -207,7 +207,7 @@ export function CourseEditForm() {
 
   const onSubmit = handleSubmit(async (data) => {
     await updateCourse(data, Number(id));
-    router.push("/dashboard/courses");
+    router.push("/dashboard/admin/courses");
     router.refresh();
   });
 

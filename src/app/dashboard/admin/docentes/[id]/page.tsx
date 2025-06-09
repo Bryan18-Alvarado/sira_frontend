@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DocenteEditForm } from "../../../../components/docentes/docente-form";
+import { DocenteEditForm } from "../../../../../components/docentes/docente-form";
 function DocenteEditPage() {
   return (
     <div className="h-screen flex justify-center items-center shadow-sm">

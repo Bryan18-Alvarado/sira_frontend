@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import DocenteTable from "../../../components/docentes/docentes-table";
+import DocenteTable from "../../../../components/docentes/docentes-table";
 
 function DocentesTablePage() {
   return (

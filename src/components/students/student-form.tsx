@@ -43,7 +43,7 @@ export function StudentForm() {
     console.log(data);
     const result = await addStudent(data);
     console.log(result);
-    router.push("/dashboard/students/");
+    router.push("/dashboard/admin/students/");
     router.refresh();
   });
 
@@ -124,7 +124,7 @@ export function StudentEditForm() {
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
     await updateEstudent(data, Number(id));
-    router.push("/dashboard/students/");
+    router.push("admin/dashboard/students/");
     router.refresh();
   });
 

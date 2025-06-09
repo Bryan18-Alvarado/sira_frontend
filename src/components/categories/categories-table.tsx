@@ -43,7 +43,7 @@ export function CategoriesTable() {
     <div className="space-y-4">
       <div className="flex justify-end">
         <Link
-          href="/dashboard/categories/add"
+          href="/dashboard/admin/categories/add"
           className={buttonVariants({ variant: "agregar" })}
         >
           <PiPlusCircleBold className="mr-2 h-4 w-4" />
@@ -69,7 +69,7 @@ export function CategoriesTable() {
                 <TableCell>{category.status ? "Activo" : "Inactivo"}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
-                    <Link href={`/dashboard/categories/${category.id}`}>
+                    <Link href={`/dashboard/admin/categories/${category.id}`}>
                       <Button
                         size="sm"
                         className="bg-blue-600 text-white hover:bg-blue-700"
