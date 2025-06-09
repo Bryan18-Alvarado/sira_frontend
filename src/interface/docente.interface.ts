@@ -1,3 +1,8 @@
+export interface Curso {
+  id: number;
+  nombre: string;
+}
+
 export interface Docente {
   id: number;
   nombre: string;
@@ -14,11 +19,6 @@ export interface Docente {
     marital_status: string;
   };
   codigo_laboral: number;
-  cursos_asignados_id: number;
-  cursos_asignados: {
-    id: number;
-    nombre: string;
-  };
   direccion?: string;
   fecha_ingreso: string;
   fecha_nacimiento: string;
@@ -28,6 +28,8 @@ export interface Docente {
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
+
+  courses: Curso[];
 }
 
 export interface DocenteData {
@@ -38,7 +40,7 @@ export interface DocenteData {
   genero_id: number;
   estado_civil_id: number;
   codigo_laboral: number;
-  cursos_asignados_id: number;
+  cursos_asignados: Curso[];
   direccion?: string;
   fecha_ingreso: string;
   fecha_nacimiento: string;

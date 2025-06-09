@@ -86,8 +86,18 @@ export function DocenteTable() {
                 </TableCell>
                 <TableCell>{docente.codigo_laboral}</TableCell>
                 <TableCell>
-                  {docente.cursos_asignados?.nombre || "Sin cursos asignados"}
+                  {docente.courses && docente.courses.length > 0
+                    ? docente.courses.map((curso) => (
+                        <span
+                          key={curso.id}
+                          className="mr-1 px-1 rounded bg-blue-100 text-blue-800 text-xs"
+                        >
+                          {curso.nombre}
+                        </span>
+                      ))
+                    : "Sin cursos asignados"}
                 </TableCell>
+
                 <TableCell>{docente.direccion || "-"}</TableCell>
                 <TableCell>{docente.fecha_ingreso}</TableCell>
                 <TableCell>{docente.fecha_nacimiento}</TableCell>
