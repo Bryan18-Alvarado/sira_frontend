@@ -19,7 +19,6 @@ import { getAllMaritalStatus } from "../../app/api/estado-civil.api";
 import { useSession } from "next-auth/react";
 import { getAllCourses } from "../../app/api/courses.api";
 
-
 export const metadata = {
   title: "Agregar Docente",
   description: "Agregar un nuevo docente al sistema",
@@ -74,7 +73,7 @@ export function DocenteForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <Label>Nombre</Label>
           <Input {...register("nombre")} />
@@ -99,27 +98,6 @@ export function DocenteForm() {
             })}
           />
         </div>
-
-        <div className="md:col-span-2">
-          <Label>Cursos asignados</Label>
-          <Select
-            onValueChange={(value) =>
-              setValue("cursos_asignados_id", parseInt(value))
-            }
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecciona tu curso" />
-            </SelectTrigger>
-            <SelectContent>
-              {cursoAsignado.map((curso) => (
-                <SelectItem key={curso.id} value={curso.id.toString()}>
-                  {curso.nombre}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
         <div>
           <Label>Dirección</Label>
           <Input {...register("direccion")} />
