@@ -15,6 +15,7 @@ import {
 import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 
 interface DocenteResponse {
   data: Docente[];
@@ -40,6 +41,27 @@ export function DocenteTable() {
   useEffect(() => {
     loadDocentes(0);
   }, []);
+
+  const handDeleteStudent = async (id: number) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás deshacer esta acción!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteDocente(id, session?.user?.token);
+        Swal.fire("Eliminado", "El estudiante ha sido eliminado.", "success");
+        loadDocentes(offset);
+      } catch (error) {
+        Swal.fire("Error", "No se pudo eliminar el estudiante.", "error");
+      }
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -118,14 +140,7 @@ export function DocenteTable() {
                     <Button
                       size="sm"
                       className="bg-destructive text-destructive-foreground"
-                      onClick={async () => {
-                        await deleteDocente(docente.id, session?.user?.token);
-                        setDocenteData((prev) => ({
-                          ...prev,
-                          data: prev.data.filter((c) => c.id !== docente.id),
-                          total: prev.total - 1,
-                        }));
-                      }}
+                      onClick={() => handDeleteStudent(docente.id)}
                     >
                       <BiTrash className="h-4 w-4" />
                       Eliminar
