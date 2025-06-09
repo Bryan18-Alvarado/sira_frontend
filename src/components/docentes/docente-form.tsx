@@ -36,6 +36,8 @@ export function DocenteForm() {
     { id: number; nombre: string }[]
   >([]);
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchGenders = async () => {
       const res = await getAllGenders(0, 100);
@@ -65,10 +67,14 @@ export function DocenteForm() {
       alert("No autenticado");
       return;
     }
-    console.log(data);
-    await addDocente(data, session?.user?.token);
-    router.push("/dashboard/docentes");
-    router.refresh();
+
+    try {
+      await addDocente(data, session?.user?.token);
+      router.push("/dashboard/admin/docentes");
+      router.refresh();
+    } catch (error: any) {
+      setErrorMessage(error.message || "Error al crear el docente");
+    }
   });
 
   return (
@@ -159,6 +165,11 @@ export function DocenteForm() {
           </Select>
         </div>
       </div>
+      {errorMessage && (
+        <div className="text-red-600 font-semibold border border-red-400 rounded p-2 bg-red-100">
+          {errorMessage}
+        </div>
+      )}
 
       <div className="pt-4">
         <Button className={buttonVariants({ variant: "agregar" })}>

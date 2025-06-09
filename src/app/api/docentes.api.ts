@@ -33,6 +33,11 @@ export async function addDocente(
     body: JSON.stringify(docenteData),
   });
 
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Error al crear el docente");
+  }
+
   return res.json();
 }
 
@@ -43,7 +48,6 @@ export async function updateDocente(
 ) {
   if (!token) throw new Error("Token no encontrado");
   const res = await fetch(`${API_URL}/${id}`, {
-
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
