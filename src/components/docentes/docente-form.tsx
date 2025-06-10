@@ -197,11 +197,26 @@ export function DocenteEditForm() {
   const { id } = useParams();
   const router = useRouter();
   const { data: session } = useSession();
-  const { register, handleSubmit } = useForm<DocenteData>();
+  const { register, handleSubmit, setValue } = useForm<DocenteData>({});
+
+  useEffect(() => {
+    getDocenteById(Number(id)).then((data) => {
+      console.log("Datos del docente:", data);
+      setValue("nombre", data.nombre);
+      setValue("apellido", data.apellido);
+      setValue("edad", data.edad);
+      setValue("codigo_laboral", data.codigo_laboral);
+      setValue("direccion", data.direccion);
+      setValue("telefono", data.telefono);
+      setValue("email", data.email);
+      setValue("fecha_ingreso", data.fecha_ingreso);
+      setValue("fecha_nacimiento", data.fecha_nacimiento);
+    });
+  }, [id, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
     await updateDocente(data, Number(id), session?.user?.token);
-    router.push("/dashboard/docentes/");
+    router.push("/dashboard/admin/docentes/");
     router.refresh();
   });
 
@@ -231,10 +246,10 @@ export function DocenteEditForm() {
             })}
           />
         </div>
-        <div className="md:col-span-2">
+        {/* <div className="md:col-span-2">
           <Label>Cursos Asignados</Label>
           <Input {...register("cursos_asignados")} />
-        </div>
+        </div> */}
         <div>
           <Label>Dirección</Label>
           <Input {...register("direccion")} />
