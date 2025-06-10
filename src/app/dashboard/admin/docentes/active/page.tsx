@@ -35,7 +35,7 @@ const DocentesActivos = () => {
         {docentes.map((docente) => (
           <div
             key={docente.id}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-105"
+            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-105 hover:bg-green-200"
           >
             <img
               src={docente.image ?? "/images/default.png"}
