@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
@@ -21,7 +21,7 @@ import { getAllGenders } from "../../app/api/genders.api";
 import { DocenteData } from "../../interface/docente.interface";
 import { getAllMaritalStatus } from "../../app/api/estado-civil.api";
 import { useSession } from "next-auth/react";
-import { getAllCourses } from "../../app/api/courses.api";
+import Swal from "sweetalert2";
 
 export const metadata = {
   title: "Agregar Docente",
@@ -32,52 +32,63 @@ export function DocenteForm() {
   const { data: session } = useSession();
   const { register, handleSubmit, setValue } = useForm<DocenteData>();
   const router = useRouter();
+
   const [genders, setGenders] = useState<{ id: number; name: string }[]>([]);
   const [maritalStatus, setMaritalStatus] = useState<
     { id: number; marital_status: string }[]
   >([]);
-  const [cursoAsignado, setCursoAsignado] = useState<
-    { id: number; nombre: string }[]
-  >([]);
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
-    const fetchGenders = async () => {
-      const res = await getAllGenders(0, 100);
-      setGenders(res.data);
-    };
-    fetchGenders();
-  }, []);
-
-  useEffect(() => {
-    const fetchMaritalStatus = async () => {
-      const res = await getAllMaritalStatus(0, 100);
-      setMaritalStatus(res.data);
-    };
-    fetchMaritalStatus();
-  }, []);
-
-  useEffect(() => {
-    const fetchCursosAsignados = async () => {
-      const res = await getAllCourses(0, 100);
-      setCursoAsignado(res.data);
-    };
-    fetchCursosAsignados();
+    getAllGenders(0, 100).then((res) => setGenders(res.data));
+    getAllMaritalStatus(0, 100).then((res) => setMaritalStatus(res.data));
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
     if (!session?.user?.token) {
-      alert("No autenticado");
+      Swal.fire({
+        icon: "error",
+        title: "No autenticado",
+        text: "Debes iniciar sesión para continuar.",
+      });
       return;
     }
 
     try {
-      await addDocente(data, session?.user?.token);
-      router.push("/dashboard/admin/docentes");
-      router.refresh();
+      const formData = new FormData();
+      Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          formData.append(key, value.toString());
+        }
+      });
+      if (imageFile) formData.append("file", imageFile);
+
+      await addDocente(formData, session.user.token);
+
+      Swal.fire({
+        icon: "success",
+        title: "¡Docente creado!",
+        text: "El docente fue registrado correctamente.",
+        confirmButtonColor: "#3085d6",
+      }).then(() => {
+        router.push("/dashboard/admin/docentes");
+        router.refresh();
+      });
     } catch (error: any) {
-      setErrorMessage(error.message || "Error al crear el docente");
+      if (error?.response?.status === 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "Docente duplicado",
+          text: "Ya existe un docente con ese código laboral o correo.",
+        });
+        return;
+      }
+
+      Swal.fire({
+        icon: "error",
+        title: "Error al registrar docente",
+        text: error?.response?.data?.message || "Ocurrió un error inesperado.",
+      });
     }
   });
 
@@ -92,7 +103,6 @@ export function DocenteForm() {
           <Label>Apellido</Label>
           <Input {...register("apellido")} />
         </div>
-
         <div>
           <Label>Edad</Label>
           <Input type="number" {...register("edad", { valueAsNumber: true })} />
@@ -109,6 +119,14 @@ export function DocenteForm() {
           />
         </div>
         <div>
+          <Label>Imagen</Label>
+          <Input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+          />
+        </div>
+        <div>
           <Label>Dirección</Label>
           <Input {...register("direccion")} />
         </div>
@@ -116,7 +134,6 @@ export function DocenteForm() {
           <Label>Teléfono</Label>
           <Input {...register("telefono")} />
         </div>
-
         <div>
           <Label>Email</Label>
           <Input {...register("email")} />
@@ -125,12 +142,10 @@ export function DocenteForm() {
           <Label>Fecha Ingreso</Label>
           <Input {...register("fecha_ingreso")} type="date" />
         </div>
-
         <div>
           <Label>Fecha Nacimiento</Label>
           <Input {...register("fecha_nacimiento")} type="date" />
         </div>
-
         <div>
           <Label>Género</Label>
           <Select
@@ -148,7 +163,6 @@ export function DocenteForm() {
             </SelectContent>
           </Select>
         </div>
-
         <div>
           <Label>Estado Civil</Label>
           <Select
@@ -169,11 +183,6 @@ export function DocenteForm() {
           </Select>
         </div>
       </div>
-      {errorMessage && (
-        <div className="text-red-600 font-semibold border border-red-400 rounded p-2 bg-red-100">
-          {errorMessage}
-        </div>
-      )}
 
       <div className="pt-4">
         <Button className={buttonVariants({ variant: "agregar" })}>
@@ -187,24 +196,8 @@ export function DocenteForm() {
 export function DocenteEditForm() {
   const { id } = useParams();
   const router = useRouter();
-
   const { data: session } = useSession();
-
-  const { register, handleSubmit, setValue } = useForm<DocenteData>({});
-
-  useEffect(() => {
-    getDocenteById(Number(id)).then((data) => {
-      setValue("nombre", data.nombre);
-      setValue("apellido", data.apellido);
-      setValue("edad", data.edad);
-      setValue("codigo_laboral", data.codigo_laboral);
-      setValue("direccion", data.direccion || "");
-      setValue("telefono", data.telefono || "");
-      setValue("email", data.email);
-      setValue("fecha_ingreso", data.fecha_ingreso);
-      setValue("fecha_nacimiento", data.fecha_nacimiento);
-    });
-  }, [id, setValue]);
+  const { register, handleSubmit } = useForm<DocenteData>();
 
   const onSubmit = handleSubmit(async (data) => {
     await updateDocente(data, Number(id), session?.user?.token);
@@ -219,17 +212,14 @@ export function DocenteEditForm() {
           <Label>Nombre</Label>
           <Input {...register("nombre")} />
         </div>
-
         <div>
           <Label>Apellido</Label>
           <Input {...register("apellido")} />
         </div>
-
         <div>
           <Label>Edad</Label>
           <Input type="number" {...register("edad", { valueAsNumber: true })} />
         </div>
-
         <div>
           <Label>Código Laboral</Label>
           <Input
@@ -241,32 +231,26 @@ export function DocenteEditForm() {
             })}
           />
         </div>
-
-        {/* <div className="md:col-span-2">
+        <div className="md:col-span-2">
           <Label>Cursos Asignados</Label>
-          <Input {...register("cursos_asignados_id")} />
-        </div> */}
-
+          <Input {...register("cursos_asignados")} />
+        </div>
         <div>
           <Label>Dirección</Label>
           <Input {...register("direccion")} />
         </div>
-
         <div>
           <Label>Teléfono</Label>
           <Input {...register("telefono")} />
         </div>
-
         <div>
           <Label>Email</Label>
           <Input {...register("email")} />
         </div>
-
         <div>
           <Label>Fecha Ingreso</Label>
           <Input {...register("fecha_ingreso")} type="date" />
         </div>
-
         <div>
           <Label>Fecha Nacimiento</Label>
           <Input {...register("fecha_nacimiento")} type="date" />
