@@ -22,6 +22,7 @@ export interface Docente {
   direccion?: string;
   fecha_ingreso: string;
   fecha_nacimiento: string;
+  image?: string;
   telefono?: string;
   email: string;
   isAvailable?: boolean;
@@ -46,6 +47,7 @@ export interface DocenteData {
   fecha_nacimiento: string;
   telefono?: string;
   email: string;
+  image?: string;
 }
 
 export interface DocenteResponse {

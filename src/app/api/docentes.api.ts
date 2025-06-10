@@ -6,6 +6,7 @@ import {
 const API_URL = "http://localhost:4000/api/v1/docentes";
 
 import { auth } from "@/auth";
+export const BACKEND_URL = "http://localhost:4000";
 
 export async function getAllDocentes(
   offset: number = 0,
@@ -20,17 +21,17 @@ export async function getAllDocentes(
 }
 
 export async function addDocente(
-  docenteData: DocenteData,
+  formData: FormData,
   token: string | undefined
 ) {
   if (!token) throw new Error("Token no encontrado");
   const res = await fetch(API_URL, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(docenteData),
+    body: formData,
   });
 
   if (!res.ok) {
