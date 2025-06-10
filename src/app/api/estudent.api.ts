@@ -52,3 +52,19 @@ export async function updateEstudent(StudentData: StudentData, id: number) {
   return res.json();
 }
 
+// URL de los Estudiantes
+
+export async function getCoursesByStudentId(studentId: number) {
+  const response = await fetch(
+    `http://localhost:4000/api/v1/studentcourses/student/${studentId}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Error al obtener los cursos del estudiante");
+  }
+
+  return response.json();
+}
