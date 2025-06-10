@@ -41,6 +41,11 @@ export async function addDocente(
   return res.json();
 }
 
+export async function getDocenteById(id: number): Promise<DocenteData> {
+  const res = await fetch(`http://localhost:4000/api/v1/docentes/${id}`);
+  return res.json();
+}
+
 export async function updateDocente(
   docenteData: DocenteData,
   id: number,
