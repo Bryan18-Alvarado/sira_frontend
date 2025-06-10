@@ -15,6 +15,7 @@ import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { deleteCategory, getAllCategories } from "../../app/api/categories.api";
+
 interface CategoriesResponse {
   data: Categories[];
   total: number;
@@ -29,7 +30,6 @@ export function CategoriesTable() {
   });
 
   const loadCategories = async (newOffset: number) => {
-    // Replace with your API call to fetch categories
     const result = await getAllCategories(newOffset, limit);
     setCategoriesData(result);
     setOffset(newOffset);
@@ -40,33 +40,53 @@ export function CategoriesTable() {
   }, []);
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
+    <div className="space-y-6 p-6 bg-gray-50 rounded-lg shadow-md">
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-semibold text-gray-800">Categorías</h1>
         <Link
           href="/dashboard/admin/categories/add"
           className={buttonVariants({ variant: "agregar" })}
         >
-          <PiPlusCircleBold className="mr-2 h-4 w-4" />
-          Agregar categoria
+          <PiPlusCircleBold className="mr-2 h-5 w-5" />
+          Agregar categoría
         </Link>
       </div>
-      <div className="rounded-md border">
+      <div className="overflow-hidden rounded-lg border bg-white shadow-sm">
         <Table>
-          <TableHeader>
-            <TableRow className="text-sm">
-              <TableHead>ID</TableHead>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Descripción</TableHead>
-              <TableHead>Estado</TableHead>
+          <TableHeader className="bg-gray-100">
+            <TableRow>
+              <TableHead className="text-left text-gray-600">ID</TableHead>
+              <TableHead className="text-left text-gray-600">Nombre</TableHead>
+              <TableHead className="text-left text-gray-600">
+                Descripción
+              </TableHead>
+              <TableHead className="text-left text-gray-600">Estado</TableHead>
+              <TableHead className="text-right text-gray-600">
+                Acciones
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {categoriesData.data.map((category) => (
-              <TableRow key={category.id}>
-                <TableCell>{category.id}</TableCell>
-                <TableCell>{category.nombre}</TableCell>
-                <TableCell>{category.descripcion}</TableCell>
-                <TableCell>{category.status ? "Activo" : "Inactivo"}</TableCell>
+              <TableRow key={category.id} className="hover:bg-gray-50">
+                <TableCell className="text-gray-700">{category.id}</TableCell>
+                <TableCell className="text-gray-700">
+                  {category.nombre}
+                </TableCell>
+                <TableCell className="text-gray-700">
+                  {category.descripcion}
+                </TableCell>
+                <TableCell className="text-gray-700">
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      category.status
+                        ? "bg-green-100 text-green-600"
+                        : "bg-red-100 text-red-600"
+                    }`}
+                  >
+                    {category.status ? "Activo" : "Inactivo"}
+                  </span>
+                </TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
                     <Link href={`/dashboard/admin/categories/${category.id}`}>
@@ -80,7 +100,7 @@ export function CategoriesTable() {
                     </Link>
                     <Button
                       size="sm"
-                      className="bg-destructive text-destructive-foreground"
+                      className="bg-red-600 text-white hover:bg-red-700"
                       onClick={async () => {
                         await deleteCategory(category.id);
                         setCategoriesData((prev) => ({
@@ -99,6 +119,30 @@ export function CategoriesTable() {
             ))}
           </TableBody>
         </Table>
+      </div>
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-gray-600">
+          Mostrando {categoriesData.data.length} de {categoriesData.total}{" "}
+          categorías
+        </p>
+        <div className="flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={offset === 0}
+            onClick={() => loadCategories(offset - limit)}
+          >
+            Anterior
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            disabled={offset + limit >= categoriesData.total}
+            onClick={() => loadCategories(offset + limit)}
+          >
+            Siguiente
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -6,7 +6,6 @@ import {
 const API_URL = "http://localhost:4000/api/v1/docentes";
 
 import { auth } from "@/auth";
-export const BACKEND_URL = "http://localhost:4000";
 
 export async function getAllDocentes(
   offset: number = 0,
