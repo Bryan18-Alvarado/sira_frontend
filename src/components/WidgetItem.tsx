@@ -53,22 +53,6 @@ export const WidgetItem = () => {
           Cursos registrados en el sistema
         </span>
       </div>
-
-      {/* Card Total Estudiantes Activos */}
-      <div className="w-full h-full py-10 px-8 space-y-6 rounded-xl bg-blue-600 shadow-lg text-white flex flex-col items-center">
-        <div className="flex items-center gap-4">
-          <PiUsersBold size={48} />
-          <h5 className="text-2xl font-semibold">Estudiantes Activos</h5>
-        </div>
-        <div className="mt-4 flex items-center gap-6">
-          <h3 className="text-5xl font-extrabold">
-            {totalActiveStudents !== null ? totalActiveStudents : "Cargando..."}
-          </h3>
-        </div>
-        <span className="text-center text-blue-200 text-lg">
-          Estudiantes activos en el sistema
-        </span>
-      </div>
     </div>
   );
 };

@@ -15,6 +15,7 @@ import {
 import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { Course } from "../../interface/courses.interface";
+import Swal from "sweetalert2";
 interface CoursesResponse {
   data: Course[];
   total: number;
@@ -37,6 +38,26 @@ export function CoursesTable() {
   useEffect(() => {
     loadCourses(0);
   }, []);
+
+  const handleDeleteCourse = async (id: number) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás deshacer esta acción!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        Swal.fire("Eliminado", "El curso ha sido eliminado.", "success");
+        loadCourses(offset);
+      } catch (error) {
+        Swal.fire("Error", "No se pudo eliminar el curso.", "error");
+      }
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -110,14 +131,7 @@ export function CoursesTable() {
                     <Button
                       size="sm"
                       className="bg-destructive text-destructive-foreground"
-                      onClick={async () => {
-                        await deleteCourse(course.id);
-                        setCourseData((prev) => ({
-                          ...prev,
-                          data: prev.data.filter((c) => c.id !== course.id),
-                          total: prev.total - 1,
-                        }));
-                      }}
+                      onClick={() => handleDeleteCourse(course.id)}
                     >
                       <BiTrash className="h-4 w-4" />
                       Eliminar

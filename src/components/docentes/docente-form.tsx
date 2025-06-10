@@ -18,6 +18,7 @@ import { DocenteData } from "../../interface/docente.interface";
 import { getAllMaritalStatus } from "../../app/api/estado-civil.api";
 import { useSession } from "next-auth/react";
 import { getAllCourses } from "../../app/api/courses.api";
+import Swal from "sweetalert2";
 
 export const metadata = {
   title: "Agregar Docente",
@@ -64,16 +65,43 @@ export function DocenteForm() {
 
   const onSubmit = handleSubmit(async (data) => {
     if (!session?.user?.token) {
-      alert("No autenticado");
+      Swal.fire({
+        icon: "error",
+        title: "No autenticado",
+        text: "Debes iniciar sesión para continuar.",
+      });
       return;
     }
 
     try {
-      await addDocente(data, session?.user?.token);
-      router.push("/dashboard/admin/docentes");
-      router.refresh();
+      const response = await addDocente(data, session?.user?.token);
+
+      Swal.fire({
+        icon: "success",
+        title: "¡Docente creado!",
+        text: "El docente fue registrado correctamente.",
+        confirmButtonColor: "#3085d6",
+      }).then(() => {
+        router.push("/dashboard/admin/docentes");
+        router.refresh();
+      });
     } catch (error: any) {
-      setErrorMessage(error.message || "Error al crear el docente");
+      // Si el backend envía 409 por conflicto (docente ya existe)
+      if (error?.response?.status === 409) {
+        Swal.fire({
+          icon: "warning",
+          title: "Docente duplicado",
+          text: "Ya existe un docente con ese código laboral o correo.",
+        });
+        return;
+      }
+
+      // Cualquier otro error
+      Swal.fire({
+        icon: "error",
+        title: "Error al registrar docente",
+        text: error?.response?.data?.message || "Ocurrió un error inesperado.",
+      });
     }
   });
 

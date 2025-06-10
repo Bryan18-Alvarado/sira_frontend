@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
+  IoAnalyticsSharp,
   IoBookSharp,
   IoCalendarOutline,
   IoCheckboxOutline,
@@ -43,6 +44,11 @@ const menuByRole = {
       icon: <IoBookSharp />,
       title: "Cursos",
       path: "/dashboard/admin/courses",
+    },
+    {
+      icon: <IoAnalyticsSharp />,
+      title: "Nivel de Cursos",
+      path: "/dashboard/admin/levels",
     },
   ],
   docente: [
