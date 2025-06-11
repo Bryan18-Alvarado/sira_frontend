@@ -17,6 +17,7 @@ export interface Course {
   };
   codigo: string;
   nombre: string;
+  image?: string;
   descripcion: string;
   duracion: string;
   horario: string;
@@ -40,6 +41,7 @@ export interface CoursesData {
   nombre: string;
   descripcion: string;
   duracion: string;
+  image?: string;
   horario: string;
   status: boolean;
   fecha_inicio: Date;

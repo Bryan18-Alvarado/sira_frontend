@@ -16,6 +16,7 @@ import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { Course } from "../../interface/courses.interface";
 import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
 interface CoursesResponse {
   data: Course[];
   total: number;
@@ -24,6 +25,7 @@ interface CoursesResponse {
 export function CoursesTable() {
   const [offset, setOffset] = useState(0);
   const [limit] = useState(3);
+  const { data: session } = useSession();
   const [courseData, setCourseData] = useState<CoursesResponse>({
     data: [],
     total: 0,
@@ -51,6 +53,7 @@ export function CoursesTable() {
 
     if (result.isConfirmed) {
       try {
+        await deleteCourse(id, session?.user?.token);
         Swal.fire("Eliminado", "El curso ha sido eliminado.", "success");
         loadCourses(offset);
       } catch (error) {
