@@ -9,6 +9,8 @@ const config = {
       credentials: {
         username: { label: "Username" },
         password: { label: "Password", type: "password" },
+        codigoEstudiante: { label: "Código de estudiante", type: "text" },
+        codigo_laboral: { label: "Código laboral", type: "text" },
       },
       async authorize(credentials) {
         const res = await fetch(
@@ -19,6 +21,8 @@ const config = {
             body: JSON.stringify({
               email: credentials.username,
               password: credentials.password,
+              codigoEstudiante: credentials.codigoEstudiante, // <-- Aquí
+              codigo_laboral: credentials.codigo_laboral, // <-- Aquí
             }),
           }
         );

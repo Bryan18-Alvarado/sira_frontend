@@ -12,6 +12,7 @@ import { getSession } from "next-auth/react";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [codigo, setCodigo] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -40,6 +41,8 @@ export default function LoginPage() {
       redirect: false,
       username: email,
       password,
+      codigoEstudiante: codigo, // Se envía siempre
+      codigo_laboral: codigo,
     });
 
     if (res?.error) {
@@ -96,6 +99,17 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="codigo">Código (Estudiante o Laboral)</Label>
+              <Input
+                id="codigo"
+                type="text"
+                placeholder="Código de estudiante o docente"
+                value={codigo}
+                onChange={(e) => setCodigo(e.target.value)}
               />
             </div>
 
