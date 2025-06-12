@@ -27,7 +27,7 @@ export default function DocentePage() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <Link href="/admin/docentes/active">
+        <Link href="/dashboard/admin/docentes/active">
           <div className="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-2xl p-6 shadow-lg transition-transform transform hover:scale-105 cursor-pointer">
             <div className="flex items-center gap-4">
               <Users className="w-10 h-10 text-white" />

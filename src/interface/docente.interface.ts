@@ -18,7 +18,7 @@ export interface Docente {
     id: number;
     marital_status: string;
   };
-  codigo_laboral: number;
+  codigo_laboral: string;
   direccion?: string;
   fecha_ingreso: string;
   fecha_nacimiento: string;
@@ -31,6 +31,12 @@ export interface Docente {
   deletedAt?: Date;
 
   courses: Curso[];
+
+  user: {
+    id: number;
+    fullname: string;
+    email: string;
+  };
 }
 
 export interface DocenteData {
@@ -48,6 +54,11 @@ export interface DocenteData {
   telefono?: string;
   email: string;
   image?: string;
+  user: {
+    fullname: string; // Input for fullname
+    email: string; // Input for email, also used in Docente
+  };
+  isAvailable?: boolean;
 }
 
 export interface DocenteResponse {
