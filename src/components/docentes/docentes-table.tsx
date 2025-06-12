@@ -42,7 +42,7 @@ export function DocenteTable() {
     loadDocentes(0);
   }, []);
 
-  const handDeleteStudent = async (id: number) => {
+  const handeleteDocente = async (id: number) => {
     const result = await Swal.fire({
       title: "¿Estás seguro?",
       text: "¡No podrás deshacer esta acción!",
@@ -55,10 +55,10 @@ export function DocenteTable() {
     if (result.isConfirmed) {
       try {
         await deleteDocente(id, session?.user?.token);
-        Swal.fire("Eliminado", "El estudiante ha sido eliminado.", "success");
+        Swal.fire("Eliminado", "El docente ha sido eliminado.", "success");
         loadDocentes(offset);
       } catch (error) {
-        Swal.fire("Error", "No se pudo eliminar el estudiante.", "error");
+        Swal.fire("Error", "No se pudo eliminar el docente.", "error");
       }
     }
   };
@@ -151,7 +151,7 @@ export function DocenteTable() {
                     <Button
                       size="sm"
                       className="bg-destructive text-destructive-foreground"
-                      onClick={() => handDeleteStudent(docente.id)}
+                      onClick={() => handeleteDocente(docente.id)}
                     >
                       <BiTrash className="h-4 w-4" />
                       Eliminar

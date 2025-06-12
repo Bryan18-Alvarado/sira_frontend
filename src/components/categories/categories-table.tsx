@@ -15,6 +15,7 @@ import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { deleteCategory, getAllCategories } from "../../app/api/categories.api";
+import Swal from "sweetalert2";
 
 interface CategoriesResponse {
   data: Categories[];
@@ -38,6 +39,27 @@ export function CategoriesTable() {
   useEffect(() => {
     loadCategories(0);
   }, []);
+
+  const handeleteCategories = async (id: number) => {
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás deshacer esta acción!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteCategory(id);
+        Swal.fire("Eliminado", "El docente ha sido eliminado.", "success");
+        loadCategories(offset);
+      } catch (error) {
+        Swal.fire("Error", "No se pudo eliminar el docente.", "error");
+      }
+    }
+  };
 
   return (
     <div className="space-y-6 p-6 bg-gray-50 rounded-lg shadow-md">
@@ -100,15 +122,8 @@ export function CategoriesTable() {
                     </Link>
                     <Button
                       size="sm"
-                      className="bg-red-600 text-white hover:bg-red-700"
-                      onClick={async () => {
-                        await deleteCategory(category.id);
-                        setCategoriesData((prev) => ({
-                          ...prev,
-                          data: prev.data.filter((c) => c.id !== category.id),
-                          total: prev.total - 1,
-                        }));
-                      }}
+                      className="bg-destructive text-destructive-foreground"
+                      onClick={() => handeleteCategories(category.id)}
                     >
                       <BiTrash className="h-4 w-4" />
                       Eliminar

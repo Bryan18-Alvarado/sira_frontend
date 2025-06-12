@@ -235,17 +235,6 @@ export function DocenteEditForm() {
           <Label>Edad</Label>
           <Input type="number" {...register("edad", { valueAsNumber: true })} />
         </div>
-        <div>
-          <Label>Código Laboral</Label>
-          <Input
-            type="number"
-            {...register("codigo_laboral", {
-              valueAsNumber: true,
-              min: 5,
-              required: true,
-            })}
-          />
-        </div>
         {/* <div className="md:col-span-2">
           <Label>Cursos Asignados</Label>
           <Input {...register("cursos_asignados")} />
