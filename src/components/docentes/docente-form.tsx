@@ -84,7 +84,9 @@ export function DocenteForm() {
       Swal.fire({
         icon: "error",
         title: "Error al registrar docente",
-        text: error?.response?.data?.message || "Ocurrió un error inesperado.",
+        text:
+          error?.response?.data?.message ||
+          "Ya existe un docente con ese email o numero de telefono.",
       });
     }
   });
