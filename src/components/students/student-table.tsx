@@ -16,6 +16,7 @@ import {
 } from "../ui/table";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
 
 // interface StudentResponse {
 //   data: Student[];
@@ -23,6 +24,7 @@ import Swal from "sweetalert2";
 // }
 
 export function StudentTable() {
+  const { data: session } = useSession();
   const [offset, setOffset] = useState(0);
   const [limit] = useState(3);
   const [studentData, setStudentData] = useState<StudentResponse>({
@@ -52,7 +54,7 @@ export function StudentTable() {
 
     if (result.isConfirmed) {
       try {
-        await deleteStudent(id);
+        await deleteStudent(id, session?.user?.token);
         Swal.fire("Eliminado", "El estudiante ha sido eliminado.", "success");
         loadStudent(offset);
       } catch (error) {
@@ -107,7 +109,7 @@ export function StudentTable() {
               <TableHead>FechaNacimiento</TableHead>
               <TableHead>genero</TableHead>
               <TableHead>telefono</TableHead>
-              <TableHead>correoElectronico</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead>direccion</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
@@ -121,7 +123,7 @@ export function StudentTable() {
                 <TableCell>{student.fechaNacimiento}</TableCell>{" "}
                 <TableCell>{student.genero?.name || "Sin genero"}</TableCell>
                 <TableCell>{student.telefono}</TableCell>
-                <TableCell>{student.correoElectronico}</TableCell>
+                <TableCell>{student.email}</TableCell>
                 <TableCell>{student.direccion}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">

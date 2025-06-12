@@ -9,13 +9,19 @@ export interface Student {
     name: string;
   };
   telefono?: string;
-  correoElectronico: string;
+  email: string;
 
   direccion?: string;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
   isAvailable?: boolean;
+
+  user: {
+    id: number;
+    fullName: string;
+    email: string;
+  };
 }
 
 export interface StudentData {
@@ -25,8 +31,13 @@ export interface StudentData {
   fechaNacimiento: Date;
   genero_id: number;
   telefono: string;
-  correoElectronico: string;
+  email: string;
   direccion: string;
+
+  user: {
+    fullName: string; // Input for fullname
+    email: string; // Input for email, also used in Docente
+  };
 }
 
 export interface StudentResponse {

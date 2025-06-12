@@ -125,17 +125,6 @@ export function DocenteTable() {
                 <TableCell>{docente.fecha_nacimiento}</TableCell>
                 <TableCell>{docente.telefono || "-"}</TableCell>
                 <TableCell>{docente.email}</TableCell>
-                <TableCell>
-                  {docente.image ? (
-                    <img
-                      src={`http://localhost:3000${docente.image}`}
-                      alt={docente.nombre}
-                      className="w-18 h-18 object-cover rounded-md"
-                    />
-                  ) : (
-                    "Sin imagen"
-                  )}
-                </TableCell>
 
                 <TableCell className="text-right">
                   <div className="flex gap-2 justify-end">
