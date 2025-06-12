@@ -20,17 +20,17 @@ export async function getAllDocentes(
 }
 
 export async function addDocente(
-  formData: FormData,
+  dataDocente: DocenteData,
   token: string | undefined
 ) {
   if (!token) throw new Error("Token no encontrado");
   const res = await fetch(API_URL, {
     method: "POST",
     headers: {
-      // "Content-Type": "application/json",
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: formData,
+    body: JSON.stringify(dataDocente),
   });
 
   if (!res.ok) {

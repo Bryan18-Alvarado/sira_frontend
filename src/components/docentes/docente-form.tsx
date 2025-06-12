@@ -30,14 +30,13 @@ export const metadata = {
 
 export function DocenteForm() {
   const { data: session } = useSession();
-  const { register, handleSubmit, setValue } = useForm<DocenteData>();
+  const { register, handleSubmit, setValue, watch } = useForm<DocenteData>();
   const router = useRouter();
 
   const [genders, setGenders] = useState<{ id: number; name: string }[]>([]);
   const [maritalStatus, setMaritalStatus] = useState<
     { id: number; marital_status: string }[]
   >([]);
-  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     getAllGenders(0, 100).then((res) => setGenders(res.data));
@@ -55,15 +54,13 @@ export function DocenteForm() {
     }
 
     try {
-      const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          formData.append(key, value.toString());
-        }
-      });
-      if (imageFile) formData.append("file", imageFile);
+      // Crear fullname automático y asociar email
+      data.user = {
+        fullName: `${data.nombre} ${data.apellido}`,
+        email: data.email,
+      };
 
-      await addDocente(formData, session.user.token);
+      await addDocente(data, session.user.token);
 
       Swal.fire({
         icon: "success",
@@ -94,7 +91,7 @@ export function DocenteForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <Label>Nombre</Label>
           <Input {...register("nombre")} />
@@ -106,25 +103,6 @@ export function DocenteForm() {
         <div>
           <Label>Edad</Label>
           <Input type="number" {...register("edad", { valueAsNumber: true })} />
-        </div>
-        <div>
-          <Label>Código Laboral</Label>
-          <Input
-            type="number"
-            {...register("codigo_laboral", {
-              valueAsNumber: true,
-              min: 5,
-              required: true,
-            })}
-          />
-        </div>
-        <div>
-          <Label>Imagen</Label>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-          />
         </div>
         <div>
           <Label>Dirección</Label>

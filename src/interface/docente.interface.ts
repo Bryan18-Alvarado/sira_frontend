@@ -34,7 +34,7 @@ export interface Docente {
 
   user: {
     id: number;
-    fullname: string;
+    fullName: string;
     email: string;
   };
 }
@@ -55,7 +55,7 @@ export interface DocenteData {
   email: string;
   image?: string;
   user: {
-    fullname: string; // Input for fullname
+    fullName: string; // Input for fullname
     email: string; // Input for email, also used in Docente
   };
   isAvailable?: boolean;
