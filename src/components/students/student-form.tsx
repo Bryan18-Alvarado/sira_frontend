@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
+
 import {
   Select,
   SelectTrigger,
@@ -26,9 +27,21 @@ import Swal from "sweetalert2";
 
 export function StudentForm() {
   const { data: session } = useSession();
-  const { register, handleSubmit, setValue } = useForm<StudentData>();
+  const { register, handleSubmit, setValue, watch } = useForm<StudentData>();
   const router = useRouter();
   const [genero, setGenero] = useState<{ id: number; name: string }[]>([]);
+  const [tutores, setTutores] = useState<{ id: number; nombre: string }[]>([]); // para tutor existente
+  const [cursos, setCursos] = useState<{ id: number; nombre: string }[]>([]);
+
+  // Para decidir si estudiante tiene tutor existente o no
+  const tieneTutorExistente = watch("tutor_id") !== undefined;
+
+  useEffect(() => {
+    register("genero_id", { required: true });
+    register("tutor_id");
+    register("tutor");
+    register("cursos_ids");
+  }, [register]);
 
   useEffect(() => {
     register("genero_id", { required: true });
