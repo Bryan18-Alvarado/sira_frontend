@@ -47,7 +47,7 @@ export interface DocenteData {
   genero_id: number;
   estado_civil_id: number;
   codigo_laboral: number;
-  cursos_asignados: Curso[];
+  cursos_ids: number[];
   direccion?: string;
   fecha_ingreso: string;
   fecha_nacimiento: string;
