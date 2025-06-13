@@ -41,7 +41,7 @@ export default function DocentePage() {
           </div>
         </Link>
 
-        <Link href="/estudiantes/activos">
+        <Link href="/dashboard/admin/students/active">
           <div className="bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-2xl p-6 shadow-lg transition-transform transform hover:scale-105 cursor-pointer">
             <div className="flex items-center gap-4">
               <GraduationCap className="w-10 h-10 text-white" />

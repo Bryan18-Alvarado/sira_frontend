@@ -16,6 +16,7 @@ export interface Student {
   updatedAt: Date;
   deletedAt?: Date;
   isAvailable?: boolean;
+  image?: string; // Optional image field
 
   user: {
     id: number;
@@ -33,6 +34,7 @@ export interface StudentData {
   telefono: string;
   email: string;
   direccion: string;
+  image?: string; // Optional image field
 
   user: {
     fullName: string; // Input for fullname
