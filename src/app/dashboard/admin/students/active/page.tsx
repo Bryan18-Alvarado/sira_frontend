@@ -36,7 +36,7 @@ const EstudiantesActivos = () => {
         {estudiante.map((estudiante) => (
           <div
             key={estudiante.id}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-105"
+            className="bg-white p-6 rounded-lg shadow-lg transition transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 hover:border-4 hover:border-green-500"
           >
             <img
               src={`http://localhost:4000${estudiante.image}`}
@@ -53,7 +53,7 @@ const EstudiantesActivos = () => {
               {estudiante.email}
             </p>
             <div className="mt-4 flex justify-center">
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-yellow-600 transition">
+              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-green-600 transition">
                 Ver Perfil
               </button>
             </div>

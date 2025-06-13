@@ -35,7 +35,7 @@ const DocentesActivos = () => {
         {docentes.map((docente) => (
           <div
             key={docente.id}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-105"
+            className="bg-white p-6 rounded-lg shadow-lg transition transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 hover:border-4 hover:border-blue-500"
           >
             <img
               src={`http://localhost:4000${docente.image}`}
@@ -50,7 +50,7 @@ const DocentesActivos = () => {
             </p>
             <p className="text-center text-sm text-gray-600">{docente.email}</p>
             <div className="mt-4 flex justify-center">
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-yellow-600 transition">
+              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-900 transition">
                 Ver Perfil
               </button>
             </div>
