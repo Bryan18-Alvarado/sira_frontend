@@ -1,4 +1,5 @@
 import {
+  Course,
   CoursesData,
   CoursesResponse,
 } from "../../interface/courses.interface";
@@ -70,6 +71,12 @@ export async function updateCourse(
   }
 
   return data;
+}
+
+export async function getCourseById(id: number): Promise<Course> {
+  const res = await fetch(`http://localhost:4000/api/v1/courses/${id}`);
+  const response = await res.json();
+  return response.data;
 }
 
 export async function deleteCourse(id: number, token: string | undefined) {

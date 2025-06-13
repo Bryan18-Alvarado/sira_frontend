@@ -4,8 +4,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { set, useForm } from "react-hook-form";
 import { getAllCategories } from "../../app/api/categories.api";
-import { CoursesData } from "../../interface/courses.interface";
-import { addCourse, updateCourse } from "../../app/api/courses.api";
+import { Course, CoursesData } from "../../interface/courses.interface";
+import {
+  addCourse,
+  getCourseById,
+  updateCourse,
+} from "../../app/api/courses.api";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
@@ -271,21 +275,141 @@ export function CourseEditForm() {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const { register, handleSubmit } = useForm<CoursesData>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    setError,
+    formState: { errors },
+  } = useForm<CoursesData>();
+
+  const [categories, setCategories] = useState<
+    { id: number; nombre: string }[]
+  >([]);
+  const [levels, setLevels] = useState<{ id: number; level_course: string }[]>(
+    []
+  );
+  const [docentes, setDocentes] = useState<{ id: number; nombre: string }[]>(
+    []
+  );
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await getAllCategories(0, 100);
+      setCategories(res.data);
+    };
+    const fetchLevels = async () => {
+      const res = await getAllLevels(0, 100);
+      setLevels(res.data);
+    };
+    const fetchDocentes = async () => {
+      const res = await getAllDocentes(0, 100);
+      setDocentes(res.data);
+    };
+
+    fetchCategories();
+    fetchLevels();
+    fetchDocentes();
+  }, []);
+
+  useEffect(() => {
+    if (!id) return;
+
+    getCourseById(Number(id)).then((course: Course) => {
+      setValue("codigo", course.codigo);
+      setValue("nombre", course.nombre);
+      setValue("descripcion", course.descripcion);
+      setValue("duracion", course.duracion);
+      setValue("horario", course.horario);
+      setValue("fecha_inicio", course.fecha_inicio);
+      setValue("fecha_fin", course.fecha_fin);
+      setValue("cupos_disponibles", course.cupos_disponibles);
+      setValue("precio", course.precio);
+      setValue("requisitos", course.requisitos);
+      setValue("categories_id", course.categories_id);
+      setValue("level_id", course.level_id);
+      setValue("docentes_id", course.docentes_id);
+    });
+  }, [id, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
-    await updateCourse(data, Number(id), session?.user?.token);
-    router.push("/dashboard/admin/courses");
-    router.refresh();
+    try {
+      const response = await updateCourse(
+        data,
+        Number(id),
+        session?.user?.token
+      );
+      if (response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Datos duplicados",
+          text: "Ya existe un curso con ese código u horario.",
+        });
+        return;
+      }
+      Swal.fire({
+        icon: "success",
+        title: "Curso agregado",
+        text: "El curso se ha agregado correctamente.",
+      }).then(() => {
+        router.push("/dashboard/admin/courses");
+        router.refresh();
+      });
+    } catch (error: any) {
+      const message = error?.response?.data?.message;
+
+      if (message?.includes("codigo")) {
+        setError("codigo", {
+          type: "manual",
+          message: "Ya existe un curso con este código.",
+        });
+      }
+
+      if (message?.includes("horario")) {
+        setError("horario", {
+          type: "manual",
+          message: "Ya existe un curso en este horario.",
+        });
+      }
+
+      if (!message?.includes("codigo") && !message?.includes("horario")) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al agregar el curso.",
+        });
+      }
+      if (error?.response?.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Datos duplicados",
+          text: "Ya existe un curso con ese código u horario. Por favor, verifica los datos ingresados.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al agregar el curso.",
+        });
+      }
+    }
   });
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
+    <form
+      onSubmit={onSubmit}
+      className="space-y-4 p-4 max-w-3xl mx-auto bg-white shadow-md rounded-lg"
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <Label>Código</Label>
           <Input {...register("codigo")} />
+          {errors.codigo && (
+            <p className="text-sm text-red-500">{errors.codigo.message}</p>
+          )}
         </div>
+
         <div>
           <Label>Nombre</Label>
           <Input {...register("nombre")} />
@@ -300,15 +424,20 @@ export function CourseEditForm() {
           <Label>Duración</Label>
           <Input {...register("duracion")} />
         </div>
+
         <div>
           <Label>Horario</Label>
           <Input {...register("horario")} />
+          {errors.horario && (
+            <p className="text-sm text-red-500">{errors.horario.message}</p>
+          )}
         </div>
 
         <div>
           <Label>Fecha de Inicio</Label>
           <Input type="date" {...register("fecha_inicio")} />
         </div>
+
         <div>
           <Label>Fecha de Finalización</Label>
           <Input type="date" {...register("fecha_fin")} />
@@ -321,6 +450,7 @@ export function CourseEditForm() {
             {...register("cupos_disponibles", { valueAsNumber: true })}
           />
         </div>
+
         <div>
           <Label>Precio</Label>
           <Input
@@ -335,9 +465,87 @@ export function CourseEditForm() {
         </div>
       </div>
 
-      <Button className={buttonVariants({ variant: "agregar" })}>
-        Actualizar Curso
-      </Button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label>Categoría</Label>
+          <Select
+            onValueChange={(value) =>
+              setValue("categories_id", parseInt(value))
+            }
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona una categoría" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((categories) => (
+                <SelectItem
+                  key={categories.id}
+                  value={categories.id.toString()}
+                >
+                  {categories.nombre}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label>Nivel</Label>
+          <Select
+            onValueChange={(value) => setValue("level_id", parseInt(value))}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona un nivel" />
+            </SelectTrigger>
+            <SelectContent>
+              {levels.map((lvl) => (
+                <SelectItem key={lvl.id} value={lvl.id.toString()}>
+                  {lvl.level_course}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label>Docente</Label>
+          <Select
+            onValueChange={(value) => setValue("docentes_id", parseInt(value))}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona un docente" />
+            </SelectTrigger>
+            <SelectContent>
+              {docentes.map((doc) => (
+                <SelectItem key={doc.id} value={doc.id.toString()}>
+                  {doc.nombre}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label>Estado</Label>
+          <Select
+            onValueChange={(value) => setValue("status", value === "true")}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecciona el estado" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">Activo</SelectItem>
+              <SelectItem value="false">Inactivo</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="flex justify-end pt-4">
+        <Button className={buttonVariants({ variant: "agregar" })}>
+          Actualizar Curso
+        </Button>
+      </div>
     </form>
   );
 }

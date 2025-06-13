@@ -42,8 +42,8 @@ export interface CoursesData {
   duracion: string;
   horario: string;
   status: boolean;
-  fecha_inicio: Date;
-  fecha_fin: Date;
+  fecha_inicio: string;
+  fecha_fin: string;
   cupos_disponibles: number;
   requisitos: string;
   precio: number;
