@@ -145,7 +145,7 @@ export const Sidebar = () => {
               className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
             />
             <h5 className="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">
-              {session?.user?.fullName ?? "Usuario"}
+              {session?.user?.userName ?? "Usuario"}
             </h5>
             <span className="hidden text-gray-400 lg:block">
               {role ? role.charAt(0).toUpperCase() + role.slice(1) : "Sin rol"}

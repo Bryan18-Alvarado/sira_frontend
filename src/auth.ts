@@ -9,8 +9,7 @@ const config = {
       credentials: {
         username: { label: "Username" },
         password: { label: "Password", type: "password" },
-        codigoEstudiante: { label: "Código de estudiante", type: "text" },
-        codigo_laboral: { label: "Código laboral", type: "text" },
+        codigo: { label: "Código de acceso", type: "text" },
       },
       async authorize(credentials) {
         const res = await fetch(
@@ -21,8 +20,7 @@ const config = {
             body: JSON.stringify({
               email: credentials.username,
               password: credentials.password,
-              codigoEstudiante: credentials.codigoEstudiante, // <-- Aquí
-              codigo_laboral: credentials.codigo_laboral, // <-- Aquí
+              codigo: credentials.codigo,
             }),
           }
         );
@@ -35,7 +33,7 @@ const config = {
 
         return {
           id: user.id,
-          fullName: user.fullName,
+          userName: user.userName,
           email: user.email,
           roles: user.roles,
           token: user.token,
@@ -48,7 +46,7 @@ const config = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.fullName = user.fullName;
+        token.userName = user.userName;
         token.accessToken = user.token;
         token.email = user.email;
         token.roles = user.roles || [];
@@ -58,7 +56,7 @@ const config = {
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
-        session.user.fullName = token.fullName as string | null;
+        session.user.userName = token.userName as string | null;
         session.user.token = token.accessToken as string;
         session.user.email = token.email as string;
         session.user.roles = token.roles as string[];
