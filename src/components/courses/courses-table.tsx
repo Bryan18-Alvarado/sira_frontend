@@ -16,12 +16,14 @@ import { PiPlusCircleBold } from "react-icons/pi";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { Course } from "../../interface/courses.interface";
 import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
 interface CoursesResponse {
   data: Course[];
   total: number;
 }
 
 export function CoursesTable() {
+  const { data: session } = useSession();
   const [offset, setOffset] = useState(0);
   const [limit] = useState(3);
   const [courseData, setCourseData] = useState<CoursesResponse>({
@@ -51,8 +53,9 @@ export function CoursesTable() {
 
     if (result.isConfirmed) {
       try {
+        await deleteCourse(id, session?.user?.token); // Esta línea FALTABA
         Swal.fire("Eliminado", "El curso ha sido eliminado.", "success");
-        loadCourses(offset);
+        loadCourses(offset); // Recarga los cursos
       } catch (error) {
         Swal.fire("Error", "No se pudo eliminar el curso.", "error");
       }
@@ -67,7 +70,7 @@ export function CoursesTable() {
           className={buttonVariants({ variant: "agregar" })}
         >
           <PiPlusCircleBold className="mr-2 h-4 w-4" />
-          Agregar course
+          Agregar curso
         </Link>
       </div>
 

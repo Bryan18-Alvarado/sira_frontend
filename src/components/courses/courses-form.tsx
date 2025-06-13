@@ -18,6 +18,8 @@ import {
 } from "../ui/select";
 import { getAllDocentes } from "../../app/api/docentes.api";
 import { getAllLevels } from "../../app/api/level.api";
+import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 
 export const metadata = {
   title: "Agregar Course",
@@ -25,7 +27,14 @@ export const metadata = {
 };
 
 export function CoursesForm() {
-  const { register, handleSubmit, setValue } = useForm<CoursesData>();
+  const { data: session } = useSession();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<CoursesData>();
   const router = useRouter();
 
   const [categories, setCategories] = useState<
@@ -58,10 +67,62 @@ export function CoursesForm() {
   }, []);
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-    await addCourse(data);
-    router.push("/dashboard/admin/courses");
-    router.refresh();
+    try {
+      const response = await addCourse(data, session?.user?.token);
+      if (response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Datos duplicados",
+          text: "Ya existe un curso con ese código u horario.",
+        });
+        return;
+      }
+      Swal.fire({
+        icon: "success",
+        title: "Curso agregado",
+        text: "El curso se ha agregado correctamente.",
+      }).then(() => {
+        router.push("/dashboard/admin/courses");
+        router.refresh();
+      });
+    } catch (error: any) {
+      const message = error?.response?.data?.message;
+
+      if (message?.includes("codigo")) {
+        setError("codigo", {
+          type: "manual",
+          message: "Ya existe un curso con este código.",
+        });
+      }
+
+      if (message?.includes("horario")) {
+        setError("horario", {
+          type: "manual",
+          message: "Ya existe un curso en este horario.",
+        });
+      }
+
+      if (!message?.includes("codigo") && !message?.includes("horario")) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al agregar el curso.",
+        });
+      }
+      if (error?.response?.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Datos duplicados",
+          text: "Ya existe un curso con ese código u horario. Por favor, verifica los datos ingresados.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al agregar el curso.",
+        });
+      }
+    }
   });
 
   return (
@@ -70,6 +131,9 @@ export function CoursesForm() {
         <div>
           <Label>Código</Label>
           <Input {...register("codigo")} />
+          {errors.codigo && (
+            <p className="text-sm text-red-500">{errors.codigo.message}</p>
+          )}
         </div>
         <div>
           <Label>Nombre</Label>
@@ -88,6 +152,9 @@ export function CoursesForm() {
         <div>
           <Label>Horario</Label>
           <Input {...register("horario")} />
+          {errors.horario && (
+            <p className="text-sm text-red-500">{errors.horario.message}</p>
+          )}
         </div>
 
         <div>
@@ -202,11 +269,12 @@ export function CoursesForm() {
 export function CourseEditForm() {
   const { id } = useParams();
   const router = useRouter();
+  const { data: session } = useSession();
 
   const { register, handleSubmit } = useForm<CoursesData>();
 
   const onSubmit = handleSubmit(async (data) => {
-    await updateCourse(data, Number(id));
+    await updateCourse(data, Number(id), session?.user?.token);
     router.push("/dashboard/admin/courses");
     router.refresh();
   });
