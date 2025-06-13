@@ -39,7 +39,7 @@ const EstudiantesActivos = () => {
             className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-105"
           >
             <img
-              src={estudiante.image ?? "/images/default.png"}
+              src={`http://localhost:4000${estudiante.image}`}
               alt={`${estudiante.nombre} ${estudiante.apellido}`}
               className="w-24 h-24 rounded-full mx-auto mb-4 object-cover border-4 border-indigo-500"
             />
