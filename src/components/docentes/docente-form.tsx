@@ -173,79 +173,80 @@ export function DocenteForm() {
   );
 }
 
-export function DocenteEditForm() {
-  const { id } = useParams();
-  const router = useRouter();
-  const { data: session } = useSession();
-  const { register, handleSubmit, setValue } = useForm<DocenteData>({});
+// export function DocenteEditForm() {
+//   const { id } = useParams();
+//   const router = useRouter();
+//   const [file, setFile] = useState<File | null>(null);
+//   const { data: session } = useSession();
+//   const { register, handleSubmit, setValue } = useForm<DocenteData>({});
 
-  useEffect(() => {
-    getDocenteById(Number(id)).then((data) => {
-      console.log("Datos del docente:", data);
-      setValue("nombre", data.nombre);
-      setValue("apellido", data.apellido);
-      setValue("edad", data.edad);
-      setValue("codigo_laboral", data.codigo_laboral);
-      setValue("direccion", data.direccion);
-      setValue("telefono", data.telefono);
-      setValue("email", data.email);
-      setValue("fecha_ingreso", data.fecha_ingreso);
-      setValue("fecha_nacimiento", data.fecha_nacimiento);
-    });
-  }, [id, setValue]);
+//   useEffect(() => {
+//     getDocenteById(Number(id)).then((data) => {
+//       console.log("Datos del docente:", data);
+//       setValue("nombre", data.nombre);
+//       setValue("apellido", data.apellido);
+//       setValue("edad", data.edad);
+//       setValue("codigo_laboral", data.codigo_laboral);
+//       setValue("direccion", data.direccion);
+//       setValue("telefono", data.telefono);
+//       setValue("email", data.email);
+//       setValue("fecha_ingreso", data.fecha_ingreso);
+//       setValue("fecha_nacimiento", data.fecha_nacimiento);
+//     });
+//   }, [id, setValue]);
 
-  const onSubmit = handleSubmit(async (data) => {
-    await updateDocente(data, Number(id), session?.user?.token);
-    router.push("/dashboard/admin/docentes/");
-    router.refresh();
-  });
+//   const onSubmit = handleSubmit(async (data) => {
+//     await updateDocente(data, Number(id), session?.user?.token);
+//     router.push("/dashboard/admin/docentes/");
+//     router.refresh();
+//   });
 
-  return (
-    <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label>Nombre</Label>
-          <Input {...register("nombre")} />
-        </div>
-        <div>
-          <Label>Apellido</Label>
-          <Input {...register("apellido")} />
-        </div>
-        <div>
-          <Label>Edad</Label>
-          <Input type="number" {...register("edad", { valueAsNumber: true })} />
-        </div>
-        {/* <div className="md:col-span-2">
-          <Label>Cursos Asignados</Label>
-          <Input {...register("cursos_asignados")} />
-        </div> */}
-        <div>
-          <Label>Dirección</Label>
-          <Input {...register("direccion")} />
-        </div>
-        <div>
-          <Label>Teléfono</Label>
-          <Input {...register("telefono")} />
-        </div>
-        <div>
-          <Label>Email</Label>
-          <Input {...register("email")} />
-        </div>
-        <div>
-          <Label>Fecha Ingreso</Label>
-          <Input {...register("fecha_ingreso")} type="date" />
-        </div>
-        <div>
-          <Label>Fecha Nacimiento</Label>
-          <Input {...register("fecha_nacimiento")} type="date" />
-        </div>
-      </div>
+//   return (
+//     <form onSubmit={onSubmit} className="space-y-4 p-4 max-w-4xl mx-auto">
+//       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//         <div>
+//           <Label>Nombre</Label>
+//           <Input {...register("nombre")} />
+//         </div>
+//         <div>
+//           <Label>Apellido</Label>
+//           <Input {...register("apellido")} />
+//         </div>
+//         <div>
+//           <Label>Edad</Label>
+//           <Input type="number" {...register("edad", { valueAsNumber: true })} />
+//         </div>
+//         {/* <div className="md:col-span-2">
+//           <Label>Cursos Asignados</Label>
+//           <Input {...register("cursos_asignados")} />
+//         </div> */}
+//         <div>
+//           <Label>Dirección</Label>
+//           <Input {...register("direccion")} />
+//         </div>
+//         <div>
+//           <Label>Teléfono</Label>
+//           <Input {...register("telefono")} />
+//         </div>
+//         <div>
+//           <Label>Email</Label>
+//           <Input {...register("email")} />
+//         </div>
+//         <div>
+//           <Label>Fecha Ingreso</Label>
+//           <Input {...register("fecha_ingreso")} type="date" />
+//         </div>
+//         <div>
+//           <Label>Fecha Nacimiento</Label>
+//           <Input {...register("fecha_nacimiento")} type="date" />
+//         </div>
+//       </div>
 
-      <div className="pt-4">
-        <Button className={buttonVariants({ variant: "agregar" })}>
-          Actualizar Docente
-        </Button>
-      </div>
-    </form>
-  );
-}
+//       <div className="pt-4">
+//         <Button className={buttonVariants({ variant: "agregar" })}>
+//           Actualizar Docente
+//         </Button>
+//       </div>
+//     </form>
+//   );
+// }

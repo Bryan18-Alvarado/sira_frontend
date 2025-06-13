@@ -1,4 +1,5 @@
 import {
+  Docente,
   DocenteData,
   DocenteResponse,
 } from "../../interface/docente.interface";
@@ -41,7 +42,7 @@ export async function addDocente(
   return res.json();
 }
 
-export async function getDocenteById(id: number): Promise<DocenteData> {
+export async function getDocenteById(id: number): Promise<Docente> {
   const res = await fetch(`http://localhost:4000/api/v1/docentes/${id}`);
   const response = await res.json();
   return response.data;
