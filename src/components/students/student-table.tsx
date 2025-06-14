@@ -109,20 +109,39 @@ export function StudentTable() {
               <TableHead>FechaNacimiento</TableHead>
               <TableHead>genero</TableHead>
               <TableHead>telefono</TableHead>
+              <TableHead>Cursos matriculados</TableHead>
+              <TableHead>Tutor</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>direccion</TableHead>
               <TableHead className="text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {studentData?.data?.map((student) => (
+            {studentData.data.map((student) => (
               <TableRow key={student.id}>
                 <TableCell className="font-medium">{student.id}</TableCell>
                 <TableCell>{student.nombre}</TableCell>
                 <TableCell>{student.apellido}</TableCell>
                 <TableCell>{student.fechaNacimiento}</TableCell>{" "}
-                <TableCell>{student.genero?.name || "Sin genero"}</TableCell>
+                <TableCell>{student.genero.name || "Sin genero"}</TableCell>
                 <TableCell>{student.telefono}</TableCell>
+                <TableCell>
+                  {student.cursos_ids && student.cursos_ids.length > 0
+                    ? student.cursos_ids.map((curso) => (
+                        <span
+                          key={curso.id}
+                          className="mr-1 px-1 rounded bg-blue-100 text-blue-800 text-xs"
+                        >
+                          {curso.nombre}
+                        </span>
+                      ))
+                    : "Sin cursos asignados"}
+                </TableCell>
+                <TableCell>
+                  {student.tutor
+                    ? `${student.tutor.nombre} ${student.tutor.apellido}`
+                    : "Sin tutor"}
+                </TableCell>
                 <TableCell>{student.email}</TableCell>
                 <TableCell>{student.direccion}</TableCell>
                 <TableCell className="text-right">

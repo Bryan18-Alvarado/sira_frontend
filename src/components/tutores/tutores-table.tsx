@@ -105,10 +105,12 @@ export function TutorTable() {
             {tutorData.data.map((tutor) => (
               <TableRow key={tutor.id}>
                 <TableCell className="font-medium">{tutor.id}</TableCell>
-                <TableCell>{tutor.genero_id}</TableCell>
+                <TableCell>{tutor.genero.name || "sin genero"}</TableCell>
                 <TableCell>{tutor.nombre}</TableCell>
                 <TableCell>{tutor.apellido}</TableCell>
-                <TableCell>{tutor.estado_civil_id}</TableCell>
+                <TableCell>
+                  {tutor.estado_civil.marital_status || "sin estado civil"}
+                </TableCell>
                 <TableCell>{tutor.telefono || "-"}</TableCell>
                 <TableCell>{tutor.correoElectronico || "-"}</TableCell>
                 <TableCell>{tutor.direccion || "-"}</TableCell>

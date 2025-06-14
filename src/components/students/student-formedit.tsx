@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 import { getAllTutores } from "../../app/api/tutores.api";
 import { Tutor } from "../../interface/tutor.interface";
+import { getDocenteById } from "../../app/api/docentes.api";
 
 interface OptionType {
   value: number;
@@ -32,56 +33,38 @@ export function StudentEditForm() {
   const [tutorOptions, setTutorOptions] = useState<OptionType[]>([]);
 
   useEffect(() => {
+    getAllGenders().then((res) => {
+      const options = res.data.map((g: { id: number; name: string }) => ({
+        value: g.id,
+        label: g.name,
+      }));
+      setGenderOptions(options);
+    });
+
+    getAllTutores().then((res) => {
+      const options = res.data.map((tutor: Tutor) => ({
+        value: tutor.id,
+        label: `${tutor.nombre} ${tutor.apellido}`,
+      }));
+      setTutorOptions(options);
+    });
+  }, []);
+
+  useEffect(() => {
     if (!id) return;
+    getStudentById(Number(id)).then((student) => {
+      setValue("nombre", student.nombre);
+      setValue("apellido", student.apellido);
+      setValue("fechaNacimiento", student.fechaNacimiento);
+      setValue("genero_id", student.genero_id);
+      setValue("telefono", student.telefono);
+      // No seteamos ni enviamos user.id
+      setValue("email", student.email);
+      setValue("direccion", student.direccion);
+      setValue("tutor_id", student.tutor_id);
 
-    async function fetchData() {
-      try {
-        console.log("Fetch data para estudiante ID:", id);
-
-        const [resTutores, resGenders, student] = await Promise.all([
-          getAllTutores(0, 100),
-          getAllGenders(),
-          getStudentById(Number(id)),
-        ]);
-
-        console.log("Student cargado:", student);
-
-        setTutorOptions(
-          resTutores.data.map((t: Tutor) => ({
-            value: t.id,
-            label: t.nombre,
-          }))
-        );
-
-        setGenderOptions(
-          resGenders.data.map((g) => ({ value: g.id, label: g.name }))
-        );
-
-        const fechaFormateada = student.fechaNacimiento
-          ? new Date(student.fechaNacimiento).toISOString().split("T")[0]
-          : "";
-
-        setValue("nombre", student.nombre);
-        setValue("apellido", student.apellido);
-        setValue("fechaNacimiento", fechaFormateada);
-        setValue("genero_id", student.genero_id);
-        setValue("telefono", student.telefono);
-        // No seteamos ni enviamos user.id
-        setValue("user.email", student.user.email || "");
-        setValue("direccion", student.direccion || "");
-        setValue("tutor_id", student.tutor_id);
-
-        console.log("Datos seteados en formulario");
-      } catch (error) {
-        console.error("Error cargando datos:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "No se pudo cargar la información del estudiante.",
-        });
-      }
-    }
-    fetchData();
+      console.log("Datos seteados en formulario");
+    });
   }, [id, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -94,19 +77,21 @@ export function StudentEditForm() {
       return;
     }
 
+    // ✅ Asegura que `user` existe
+    if (!data.user) {
+      data.user = {};
+    }
+
+    // ✅ Genera un `userName` si no se proporciona
+    data.user.userName =
+      data.user.userName?.trim() ||
+      `${data.nombre}${data.apellido}`.toLowerCase();
+
+    // ✅ Sincroniza el email
+    data.user.email = data.email;
+
     try {
-      // Crear objeto sin user.id
-      const payload = {
-        ...data,
-        user: {
-          email: data.user.email,
-          userName: `${data.nombre} ${data.apellido}`,
-        },
-      };
-
-      console.log("Datos enviados al backend:", payload);
-
-      await updateEstudent(payload, Number(id), session.user.token);
+      await updateEstudent(data, Number(id), session.user.token);
 
       Swal.fire({
         icon: "success",
@@ -119,10 +104,8 @@ export function StudentEditForm() {
     } catch (error: any) {
       Swal.fire({
         icon: "error",
-        title: "Error al actualizar estudiante",
-        text:
-          error?.response?.data?.message ||
-          "Ocurrió un error al actualizar el estudiante.",
+        title: "Error al actualizar",
+        text: error?.response?.data?.message || "Ocurrió un error inesperado.",
       });
     }
   });
@@ -136,24 +119,18 @@ export function StudentEditForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <Label>Nombre</Label>
-          <Input
-            {...register("nombre", { required: true })}
-            className="w-full"
-          />
+          <Input {...register("nombre")} className="w-full" />
         </div>
 
         <div>
           <Label>Apellido</Label>
-          <Input
-            {...register("apellido", { required: true })}
-            className="w-full"
-          />
+          <Input {...register("apellido")} className="w-full" />
         </div>
 
         <div>
           <Label>Fecha de Nacimiento</Label>
           <Input
-            {...register("fechaNacimiento", { required: true })}
+            {...register("fechaNacimiento")}
             type="date"
             className="w-full"
           />
@@ -186,25 +163,13 @@ export function StudentEditForm() {
 
         <div>
           <Label>Teléfono</Label>
-          <Input
-            type="text"
-            {...register("telefono", { required: true })}
-            className="w-full"
-          />
+          <Input type="text" {...register("telefono")} className="w-full" />
         </div>
 
         <div>
           <Label>Email</Label>
-          <Controller
-            name="user.email"
-            control={control}
-            render={({ field }) => (
-              <Input {...field} type="email" className="w-full" />
-            )}
-          />
+          <Input {...register("email")} />
         </div>
-
-        {/* No hay input oculto para user.id */}
 
         <div className="md:col-span-2">
           <Label>Dirección</Label>

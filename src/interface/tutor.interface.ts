@@ -13,6 +13,14 @@ export interface Tutor {
   apellido: string;
   telefono?: string;
   estado_civil_id: number;
+  genero: {
+    id: number;
+    name: string;
+  };
+  estado_civil: {
+    id: number;
+    marital_status: string;
+  };
   correoElectronico?: string;
   direccion?: string;
   genero_id: number;
