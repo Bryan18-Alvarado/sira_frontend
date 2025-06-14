@@ -33,9 +33,9 @@ export interface Docente {
   courses: Curso[];
 
   user: {
-    id: number;
-    fullName: string;
-    email: string;
+    id?: number;
+    userName?: string;
+    email?: string;
   };
 }
 
@@ -55,8 +55,8 @@ export interface DocenteData {
   email: string;
   image?: string;
   user: {
-    fullName: string; // Input for fullname
-    email: string; // Input for email, also used in Docente
+    userName?: string; // Input for fullname
+    email?: string; // Input for email, also used in Docente
   };
   isAvailable?: boolean;
 }

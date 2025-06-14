@@ -30,8 +30,15 @@ export const metadata = {
 
 export function DocenteForm() {
   const { data: session } = useSession();
-  const { register, handleSubmit, setValue, watch } = useForm<DocenteData>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<DocenteData>();
   const router = useRouter();
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const [genders, setGenders] = useState<{ id: number; name: string }[]>([]);
   const [maritalStatus, setMaritalStatus] = useState<
@@ -42,6 +49,11 @@ export function DocenteForm() {
     getAllGenders(0, 100).then((res) => setGenders(res.data));
     getAllMaritalStatus(0, 100).then((res) => setMaritalStatus(res.data));
   }, []);
+
+  const formData = new FormData();
+  if (imageFile) {
+    formData.append("image", imageFile);
+  }
 
   const onSubmit = handleSubmit(async (data) => {
     if (!session?.user?.token) {
@@ -56,38 +68,64 @@ export function DocenteForm() {
     try {
       // Crear fullname automático y asociar email
       data.user = {
-        fullName: `${data.nombre} ${data.apellido}`,
+        userName: `${data.nombre} ${data.apellido}`,
         email: data.email,
       };
 
-      await addDocente(data, session.user.token);
-
+      const response = await addDocente(data, session.user.token);
+      if (response?.status === 409) {
+        Swal.fire({
+          icon: "error",
+          title: "Datos duplicados",
+          text: "Ya existe un docente con ese correo u numero de telefono.",
+        });
+        return;
+      }
       Swal.fire({
         icon: "success",
-        title: "¡Docente creado!",
-        text: "El docente fue registrado correctamente.",
-        confirmButtonColor: "#3085d6",
+        title: "Docente agregado",
+        text: "El docente se ha agregado correctamente.",
       }).then(() => {
         router.push("/dashboard/admin/docentes");
         router.refresh();
       });
     } catch (error: any) {
-      if (error?.response?.status === 409) {
-        Swal.fire({
-          icon: "warning",
-          title: "Docente duplicado",
-          text: "Ya existe un docente con ese código laboral o correo.",
+      const message = error?.response?.data?.message;
+
+      if (message?.includes("email")) {
+        setError("email", {
+          type: "manual",
+          message: "Ya existe un docente con este email.",
         });
-        return;
       }
 
-      Swal.fire({
-        icon: "error",
-        title: "Error al registrar docente",
-        text:
-          error?.response?.data?.message ||
-          "Ya existe un docente con ese email o numero de telefono.",
-      });
+      if (message?.includes("telefono")) {
+        setError("telefono", {
+          type: "manual",
+          message: "Ya existe un docente con este telefono.",
+        });
+      }
+
+      if (!message?.includes("email") && !message?.includes("telefono")) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al agregar el docente.",
+        });
+      }
+      if (error?.response?.status === 400) {
+        Swal.fire({
+          icon: "error",
+          title: "Datos duplicados",
+          text: "Ya existe un docente con ese correo o email. Por favor, verifica los datos ingresados.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al agregar el docente.",
+        });
+      }
     }
   });
 
@@ -113,10 +151,16 @@ export function DocenteForm() {
         <div>
           <Label>Teléfono</Label>
           <Input {...register("telefono")} />
+          {errors.telefono && (
+            <p className="text-sm text-red-500">{errors.telefono.message}</p>
+          )}
         </div>
         <div>
           <Label>Email</Label>
           <Input {...register("email")} />
+          {errors.email && (
+            <p className="text-sm text-red-500">{errors.email.message}</p>
+          )}
         </div>
         <div>
           <Label>Fecha Ingreso</Label>
@@ -126,6 +170,12 @@ export function DocenteForm() {
           <Label>Fecha Nacimiento</Label>
           <Input {...register("fecha_nacimiento")} type="date" />
         </div>
+        <Label>Imagen</Label>
+        <Input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+        />
         <div>
           <Label>Género</Label>
           <Select
