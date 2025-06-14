@@ -43,7 +43,7 @@ export interface StudentData {
   id: number;
   nombre: string;
   apellido: string;
-  fechaNacimiento: Date;
+  fechaNacimiento: string;
   genero_id: number;
   telefono: string;
   email: string;

@@ -1,4 +1,5 @@
 import {
+  Course,
   CoursesData,
   CoursesResponse,
 } from "../../interface/courses.interface";
@@ -17,8 +18,12 @@ export async function getAllCourses(
   return await response.json();
 }
 
-export async function addCourse(courseData: CoursesData) {
-  const token = "";
+export async function addCourse(
+  courseData: CoursesData,
+  token: string | undefined
+) {
+  if (!token) throw new Error("Token no encontrado");
+
   const res = await fetch("http://localhost:4000/api/v1/courses", {
     method: "POST",
     headers: {
@@ -27,11 +32,25 @@ export async function addCourse(courseData: CoursesData) {
     },
     body: JSON.stringify(courseData),
   });
-  return res.json();
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    const error = new Error(data.message || "Error al agregar el curso") as any;
+    error.response = { status: res.status, data };
+    throw error;
+  }
+
+  return data;
 }
 
-export async function updateCourse(courseData: CoursesData, id: number) {
-  const token = "";
+export async function updateCourse(
+  courseData: CoursesData,
+  id: number,
+  token: string | undefined
+) {
+  if (!token) throw new Error("Token no encontrado");
+
   const res = await fetch(`http://localhost:4000/api/v1/courses/${id}`, {
     method: "PUT",
     headers: {
@@ -40,11 +59,28 @@ export async function updateCourse(courseData: CoursesData, id: number) {
     },
     body: JSON.stringify(courseData),
   });
-  return res.json();
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    const error = new Error(
+      data.message || "Error al actualizar el curso"
+    ) as any;
+    error.response = { status: res.status, data };
+    throw error;
+  }
+
+  return data;
 }
 
-export async function deleteCourse(id: number) {
-  const token = "";
+export async function getCourseById(id: number): Promise<Course> {
+  const res = await fetch(`http://localhost:4000/api/v1/courses/${id}`);
+  const response = await res.json();
+  return response.data;
+}
+
+export async function deleteCourse(id: number, token: string | undefined) {
+  if (!token) throw new Error("Token no encontrado");
   const res = await fetch(`http://localhost:4000/api/v1/courses/${id}`, {
     method: "DELETE",
     headers: {

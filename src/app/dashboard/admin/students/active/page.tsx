@@ -4,6 +4,7 @@ import {
   Student,
   StudentResponse,
 } from "../../../../../interface/estudiante.interface";
+import { Link } from "lucide-react";
 const EstudiantesActivos = () => {
   const [estudiante, setEstudiante] = useState<Student[]>([]);
 
@@ -36,7 +37,7 @@ const EstudiantesActivos = () => {
         {estudiante.map((estudiante) => (
           <div
             key={estudiante.id}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-1 hover:scale-105"
+            className="bg-white p-6 rounded-lg shadow-lg transition transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-100 hover:border-4 hover:border-green-500"
           >
             <img
               src={`http://localhost:4000${estudiante.image}`}
@@ -53,9 +54,13 @@ const EstudiantesActivos = () => {
               {estudiante.email}
             </p>
             <div className="mt-4 flex justify-center">
-              <button className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-yellow-600 transition">
-                Ver Perfil
-              </button>
+              <a
+                href={`/dashboard/admin/students/profile/${estudiante.id}`}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
+              >
+                <Link className="mr-2 h-4 w-4" />
+                Ver perfil
+              </a>
             </div>
           </div>
         ))}

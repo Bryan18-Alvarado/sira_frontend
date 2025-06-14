@@ -175,6 +175,7 @@ export function StudentForm() {
 }
 
 export function StudentEditForm() {
+  const { data: session } = useSession();
   const { id } = useParams();
   const router = useRouter();
 
@@ -193,7 +194,7 @@ export function StudentEditForm() {
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    await updateEstudent(data, Number(id));
+    await updateEstudent(data, Number(id), session?.user?.token);
     router.push("admin/dashboard/students/");
     router.refresh();
   });
@@ -221,7 +222,7 @@ export function StudentEditForm() {
 
       <div>
         <Label>Email</Label>
-        <Input type="email" {...register("correoElectronico")} />
+        <Input type="email" {...register("email")} />
       </div>
 
       <div>
