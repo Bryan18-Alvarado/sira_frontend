@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button, buttonVariants } from "../ui/button";
@@ -9,46 +9,80 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 
 import { StudentData } from "../../interface/estudiante.interface";
-import { addStudent } from "../../app/api/estudent.api";
+import { updateEstudent, getStudentById } from "../../app/api/estudent.api";
 import { getAllGenders } from "../../app/api/genders.api";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
-import { getAllCourses } from "../../app/api/courses.api";
 import { getAllTutores } from "../../app/api/tutores.api";
+import { Tutor } from "../../interface/tutor.interface";
 
-export function StudentForm() {
-  const { data: session } = useSession();
-  const { register, handleSubmit, control, setValue, watch } =
-    useForm<StudentData>({
-      defaultValues: {
-        cursos_ids: [],
-      },
-    });
+interface OptionType {
+  value: number;
+  label: string;
+}
+
+export function StudentEditForm() {
+  const { id } = useParams();
   const router = useRouter();
+  const { data: session } = useSession();
 
-  const [genero, setGenero] = useState<{ id: number; name: string }[]>([]);
-  const [cursos, setCursos] = useState<{ id: number; nombre: string }[]>([]);
-  const [tutores, setTutores] = useState<{ id: number; nombre: string }[]>([]);
+  const { register, handleSubmit, control, setValue } = useForm<StudentData>();
+
+  const [genderOptions, setGenderOptions] = useState<OptionType[]>([]);
+  const [tutorOptions, setTutorOptions] = useState<OptionType[]>([]);
 
   useEffect(() => {
+    if (!id) return;
+
     async function fetchData() {
       try {
-        const [resCursos, resTutores, resGenero] = await Promise.all([
-          getAllCourses(0, 100),
+        console.log("Fetch data para estudiante ID:", id);
+
+        const [resTutores, resGenders, student] = await Promise.all([
           getAllTutores(0, 100),
           getAllGenders(),
+          getStudentById(Number(id)),
         ]);
 
-        setCursos(resCursos.data);
-        setTutores(resTutores.data);
-        setGenero(resGenero.data);
+        console.log("Student cargado:", student);
+
+        setTutorOptions(
+          resTutores.data.map((t: Tutor) => ({
+            value: t.id,
+            label: t.nombre,
+          }))
+        );
+
+        setGenderOptions(
+          resGenders.data.map((g) => ({ value: g.id, label: g.name }))
+        );
+
+        const fechaFormateada = student.fechaNacimiento
+          ? new Date(student.fechaNacimiento).toISOString().split("T")[0]
+          : "";
+
+        setValue("nombre", student.nombre);
+        setValue("apellido", student.apellido);
+        setValue("fechaNacimiento", fechaFormateada);
+        setValue("genero_id", student.genero_id);
+        setValue("telefono", student.telefono);
+        // No seteamos ni enviamos user.id
+        setValue("user.email", student.user.email || "");
+        setValue("direccion", student.direccion || "");
+        setValue("tutor_id", student.tutor_id);
+
+        console.log("Datos seteados en formulario");
       } catch (error) {
         console.error("Error cargando datos:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo cargar la información del estudiante.",
+        });
       }
     }
-
     fetchData();
-  }, []);
+  }, [id, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
     if (!session?.user?.token) {
@@ -61,39 +95,34 @@ export function StudentForm() {
     }
 
     try {
-      data.user = {
-        userName: `${data.nombre} ${data.apellido}`,
-        email: data.email,
+      // Crear objeto sin user.id
+      const payload = {
+        ...data,
+        user: {
+          email: data.user.email,
+          userName: `${data.nombre} ${data.apellido}`,
+        },
       };
 
-      await addStudent(data, session.user.token);
+      console.log("Datos enviados al backend:", payload);
+
+      await updateEstudent(payload, Number(id), session.user.token);
 
       Swal.fire({
         icon: "success",
-        title: "Estudiante creado!",
-        text: "El estudiante fue registrado correctamente.",
+        title: "Estudiante actualizado",
         confirmButtonColor: "#3085d6",
-      }).then(() => {
-        router.push("/dashboard/admin/students");
-        router.refresh();
       });
-    } catch (error: any) {
-      console.error("Error al registrar estudiante:", error);
-      if (error?.response?.status === 409) {
-        Swal.fire({
-          icon: "warning",
-          title: "Estudiante duplicado",
-          text: "Ya existe un estudiante con ese correo o número de teléfono.",
-        });
-        return;
-      }
 
+      router.push("/dashboard/admin/students");
+      router.refresh();
+    } catch (error: any) {
       Swal.fire({
         icon: "error",
-        title: "Error al registrar estudiante",
+        title: "Error al actualizar estudiante",
         text:
           error?.response?.data?.message ||
-          "Ocurrió un error al registrar el estudiante.",
+          "Ocurrió un error al actualizar el estudiante.",
       });
     }
   });
@@ -102,6 +131,7 @@ export function StudentForm() {
     <form
       onSubmit={onSubmit}
       className="space-y-6 p-6 max-w-4xl mx-auto bg-white shadow-md rounded-md"
+      noValidate
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
@@ -135,19 +165,14 @@ export function StudentForm() {
             name="genero_id"
             control={control}
             render={({ field }) => {
-              const selectedGenero =
-                genero
-                  .map((genero) => ({ value: genero.id, label: genero.name }))
-                  .find((option) => option.value === field.value) || null;
-
+              const selected =
+                genderOptions.find((option) => option.value === field.value) ||
+                null;
               return (
                 <Select
                   {...field}
-                  options={genero.map((genero) => ({
-                    value: genero.id,
-                    label: genero.name,
-                  }))}
-                  value={selectedGenero}
+                  options={genderOptions}
+                  value={selected}
                   onChange={(selected) =>
                     field.onChange(selected ? selected.value : null)
                   }
@@ -158,10 +183,11 @@ export function StudentForm() {
             }}
           />
         </div>
+
         <div>
           <Label>Teléfono</Label>
           <Input
-            type="number"
+            type="text"
             {...register("telefono", { required: true })}
             className="w-full"
           />
@@ -169,12 +195,16 @@ export function StudentForm() {
 
         <div>
           <Label>Email</Label>
-          <Input
-            type="email"
-            {...register("email", { required: true })}
-            className="w-full"
+          <Controller
+            name="user.email"
+            control={control}
+            render={({ field }) => (
+              <Input {...field} type="email" className="w-full" />
+            )}
           />
         </div>
+
+        {/* No hay input oculto para user.id */}
 
         <div className="md:col-span-2">
           <Label>Dirección</Label>
@@ -187,19 +217,14 @@ export function StudentForm() {
             name="tutor_id"
             control={control}
             render={({ field }) => {
-              const selectedTutor =
-                tutores
-                  .map((tutor) => ({ value: tutor.id, label: tutor.nombre }))
-                  .find((option) => option.value === field.value) || null;
-
+              const selected =
+                tutorOptions.find((option) => option.value === field.value) ||
+                null;
               return (
                 <Select
                   {...field}
-                  options={tutores.map((tutor) => ({
-                    value: tutor.id,
-                    label: tutor.nombre,
-                  }))}
-                  value={selectedTutor}
+                  options={tutorOptions}
+                  value={selected}
                   onChange={(selected) =>
                     field.onChange(selected ? selected.value : null)
                   }
@@ -210,34 +235,6 @@ export function StudentForm() {
             }}
           />
         </div>
-
-        <div className="md:col-span-2">
-          <Label>Cursos</Label>
-          <Controller
-            name="cursos_ids"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={cursos.map((curso) => ({
-                  value: curso.id,
-                  label: curso.nombre,
-                }))}
-                isMulti
-                value={cursos
-                  .filter((curso) => field.value?.includes(curso.id))
-                  .map((curso) => ({
-                    value: curso.id,
-                    label: curso.nombre,
-                  }))}
-                onChange={(selected) =>
-                  field.onChange(selected?.map((option) => option.value))
-                }
-                placeholder="Selecciona cursos"
-              />
-            )}
-          />
-        </div>
       </div>
 
       <div className="flex justify-end">
@@ -245,7 +242,7 @@ export function StudentForm() {
           type="submit"
           className={buttonVariants({ variant: "agregar" })}
         >
-          Agregar Estudiante
+          Actualizar Estudiante
         </Button>
       </div>
     </form>

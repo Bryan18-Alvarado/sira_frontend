@@ -49,10 +49,16 @@ export async function deleteStudent(id: number, token: string | undefined) {
 
   return res.json();
 }
-
 export async function getStudentById(id: number): Promise<StudentData> {
+  if (isNaN(id)) {
+    throw new Error("ID de estudiante inválido");
+  }
   const res = await fetch(`${API_URL}/${id}`);
-  return res.json();
+  if (!res.ok) {
+    throw new Error(`Error al obtener estudiante: ${res.statusText}`);
+  }
+  const json = await res.json();
+  return json.data; // 👉 Devuelve directamente el objeto estudiante
 }
 
 export async function updateEstudent(

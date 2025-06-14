@@ -1,19 +1,20 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { StudentEditForm } from "../../../../../components/students/student-formedit";
-function EstudianteEditPage() {
+import { TutorEditForm } from "../../../../../components/tutores/tutores-formedit";
+
+function TutorEditPage() {
   return (
     <div className="h-screen flex justify-center items-center shadow-sm">
       <Card className="w-full max-w-6xl mx-auto">
         <CardHeader>
-          <CardTitle>Editar Estuddiante</CardTitle>
+          <CardTitle>Editar Tutor</CardTitle>
         </CardHeader>
         <CardContent>
-          <StudentEditForm />
+          <TutorEditForm />
         </CardContent>
       </Card>
     </div>
   );
 }
 
-export default EstudianteEditPage;
+export default TutorEditPage;

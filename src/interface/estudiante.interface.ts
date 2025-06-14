@@ -1,5 +1,7 @@
+import { Tutor } from "./tutor.interface";
+
 export interface Student {
-  id: number;
+  id?: number;
   nombre: string;
   apellido: string;
   fechaNacimiento: string;
@@ -19,14 +21,17 @@ export interface Student {
   image?: string; // Optional image field
 
   user: {
-    id: number;
-    fullName: string;
+    id?: number;
+    userName: string;
     email: string;
   };
+  tutor_id?: number;
+  tutor?: Tutor; // Optional tutor field
+  cursos_ids: number[];
 }
 
 export interface StudentData {
-  id: number;
+  id?: number;
   nombre: string;
   apellido: string;
   fechaNacimiento: string;
@@ -37,9 +42,14 @@ export interface StudentData {
   image?: string; // Optional image field
 
   user: {
-    fullName: string; // Input for fullname
+    id?: number;
+    userName: string; // Input for fullname
     email: string; // Input for email, also used in Docente
   };
+  tutor_id?: number;
+  tutor?: Tutor; // Optional tutor field
+  cursos_ids: number[];
+  cursos?: { id: number; nombre: string }[];
 }
 
 export interface StudentResponse {

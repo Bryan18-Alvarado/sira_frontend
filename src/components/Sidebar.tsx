@@ -10,6 +10,7 @@ import {
   IoListOutline,
   IoNewspaperSharp,
   IoPeopleSharp,
+  IoPersonAddSharp,
   IoPersonSharp,
 } from "react-icons/io5";
 
@@ -36,6 +37,11 @@ const menuByRole = {
       icon: <IoPeopleSharp />,
       title: "Estudiantes",
       path: "/dashboard/admin/students",
+    },
+    {
+      icon: <IoPersonAddSharp />,
+      title: "Tutores",
+      path: "/dashboard/admin/tutores",
     },
     {
       icon: <IoNewspaperSharp />,
