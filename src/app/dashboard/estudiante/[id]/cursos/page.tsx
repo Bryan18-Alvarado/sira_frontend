@@ -1,6 +1,6 @@
 "use client";
 
-import CursosEstudiantesForm from "../../../../components/cursosEstudiante/cursosEstudiante-form";
+import CursosEstudiantesForm from "../../../../../components/cursosEstudiante/cursosEstudiante-form";
 
 export default function DashboardEstudiantePage() {
   return (

@@ -60,7 +60,9 @@ export default function StudentCoursesPage() {
             ti!
           </p>
           <button
-            onClick={() => (window.location.href = "/catalogo-cursos")}
+            onClick={() =>
+              (window.location.href = "/dashboard/estudiante/oferta-academica")
+            }
             className="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow hover:bg-yellow-600 transition-colors"
           >
             Revisar oferta académica

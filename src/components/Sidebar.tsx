@@ -104,7 +104,7 @@ const menuByRole = {
     {
       icon: <IoBookSharp />,
       title: "Mis Cursos",
-      path: "/dashboard/estudiante/cursos",
+      path: "/dashboard/estudiante/${studentId}/cursos",
     },
     {
       icon: <IoCheckboxOutline />,
