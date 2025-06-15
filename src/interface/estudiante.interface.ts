@@ -3,7 +3,7 @@
 //   nombre: string;
 // }
 
-interface StudentCourse {
+export interface StudentCourse {
   id: number;
   courses: {
     id: number;
@@ -70,6 +70,7 @@ export interface StudentData {
     telefono?: string;
   }; // Optional tutor field
   cursos_ids: number[];
+  studentCourses: StudentCourse[];
 }
 
 export interface StudentResponse {
