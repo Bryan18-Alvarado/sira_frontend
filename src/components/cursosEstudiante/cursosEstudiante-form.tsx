@@ -34,7 +34,6 @@ export default function StudentCoursesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Mis Cursos</h1>
       {courses.length === 0 ? (
         <p>No estás inscrito en ningún curso.</p>
       ) : (
