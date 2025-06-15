@@ -167,11 +167,13 @@ export const Sidebar = () => {
 
         <div className="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
           <button
-            className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group"
+            className="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group transition-all duration-300 hover:bg-red-100 hover:text-red-600"
             onClick={signOutAndRedirect}
           >
-            <CiLogout />
-            <span className="group-hover:text-gray-700">Logout</span>
+            <CiLogout className="text-xl group-hover:scale-110 group-hover:text-red-600 transition-transform duration-300" />
+            <span className="group-hover:text-red-600 transition-colors duration-300">
+              Logout
+            </span>
           </button>
         </div>
       </aside>
