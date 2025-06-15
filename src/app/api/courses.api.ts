@@ -18,8 +18,34 @@ export async function getAllCourses(
   return await response.json();
 }
 
+// export async function addCourse(
+//   courseData: CoursesData,
+//   token: string | undefined
+// ) {
+//   if (!token) throw new Error("Token no encontrado");
+
+//   const res = await fetch("http://localhost:4000/api/v1/courses", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify(courseData),
+//   });
+
+//   const data = await res.json();
+
+//   if (!res.ok) {
+//     const error = new Error(data.message || "Error al agregar el curso") as any;
+//     error.response = { status: res.status, data };
+//     throw error;
+//   }
+
+//   return data;
+// }
+
 export async function addCourse(
-  courseData: CoursesData,
+  courseData: FormData, // Ahora recibe FormData, no un objeto
   token: string | undefined
 ) {
   if (!token) throw new Error("Token no encontrado");
@@ -27,10 +53,11 @@ export async function addCourse(
   const res = await fetch("http://localhost:4000/api/v1/courses", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
+      // IMPORTANTE: No agregues "Content-Type" aquí.
+      // El navegador lo establece automáticamente para "multipart/form-data"
     },
-    body: JSON.stringify(courseData),
+    body: courseData,
   });
 
   const data = await res.json();

@@ -44,13 +44,14 @@ const ActiveCoursesPage: React.FC = () => {
         {courses.map((course) => (
           <div
             key={course.id}
-            className="relative bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 flex flex-col overflow-hidden group hover:scale-105"
+
+            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
           >
-            <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-[6px] group-hover:border-gradient-to-r  transition-all duration-500 pointer-events-none"></div>
+            {/* Espacio para la imagen o nombre */}
             <div className="h-40 bg-gray-100 flex items-center justify-center rounded-t-lg overflow-hidden">
               {course.image ? (
                 <img
-                  src={course.image}
+                  src={`http://localhost:4000${course.image}`}
                   alt={course.nombre}
                   className="object-cover w-full h-full"
                 />
@@ -60,8 +61,9 @@ const ActiveCoursesPage: React.FC = () => {
                 </span>
               )}
             </div>
-            <div className="p-6 flex-grow relative z-10">
-              <h2 className="text-2xl font-semibold text-gray-800 mb-3 group-hover:text-blue-500 transition-colors duration-300">
+            {/* Contenido del curso */}
+            <div className="p-6 flex-grow">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {course.nombre}
               </h2>
               <p className="text-blue-600 mb-4">{course.descripcion}</p>
@@ -95,11 +97,12 @@ const ActiveCoursesPage: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="p-4 border-t border-gray-200 flex justify-center relative z-10">
+
+            {/* Botón alineado */}
+            <div className="p-4 border-t border-gray-200 flex justify-center">
               <a
                 href={`/dashboard/admin/courses/profile/${course.id}`}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-transform duration-300 hover:bg-blue-700 hover:scale-105 flex items-center"
-              >
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
                 <FileText className="mr-2 h-4 w-4" />
                 Ver plan de estudio
               </a>
