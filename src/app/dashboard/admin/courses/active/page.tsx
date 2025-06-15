@@ -36,14 +36,15 @@ const ActiveCoursesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+    <div className="min-h-screen p-6">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-12">
         Cursos del Community English Center
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {courses.map((course) => (
           <div
             key={course.id}
+
             className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
           >
             {/* Espacio para la imagen o nombre */}
@@ -65,44 +66,43 @@ const ActiveCoursesPage: React.FC = () => {
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {course.nombre}
               </h2>
-              <p className="text-gray-600 mb-4">{course.descripcion}</p>
-              <div className="text-sm text-gray-500 space-y-1">
+              <p className="text-blue-600 mb-4">{course.descripcion}</p>
+              <div className="text-sm text-gray-900 space-y-1">
                 <p>
-                  <strong>Category:</strong>{" "}
+                  <strong>Categoria:</strong>{" "}
                   {course.categories?.nombre || "N/A"}
                 </p>
                 <p>
-                  <strong>Level:</strong> {course.level?.level_course || "N/A"}
+                  <strong>Nivel:</strong> {course.level?.level_course || "N/A"}
                 </p>
                 <p>
-                  <strong>Instructor:</strong>{" "}
-                  {course.docentes?.nombre || "N/A"}
+                  <strong>Docente:</strong> {course.docentes?.nombre || "N/A"}
                 </p>
                 <p>
-                  <strong>Duration:</strong> {course.duracion}
+                  <strong>Tiempo de duracion:</strong> {course.duracion}
                 </p>
                 <p>
-                  <strong>Start Date:</strong>{" "}
+                  <strong>Fecha de inicio:</strong>{" "}
                   {new Date(course.fecha_inicio).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>End Date:</strong>{" "}
+                  <strong>Fecha final de curso:</strong>{" "}
                   {new Date(course.fecha_fin).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Price:</strong> ${course.precio}
+                  <strong>Precio mensual:</strong> ${course.precio}
                 </p>
                 <p>
-                  <strong>Available Slots:</strong> {course.cupos_disponibles}
+                  <strong>Cupos disponibles:</strong> {course.cupos_disponibles}
                 </p>
               </div>
             </div>
+
             {/* Botón alineado */}
             <div className="p-4 border-t border-gray-200 flex justify-center">
               <a
                 href={`/dashboard/admin/courses/profile/${course.id}`}
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
-              >
                 <FileText className="mr-2 h-4 w-4" />
                 Ver plan de estudio
               </a>
