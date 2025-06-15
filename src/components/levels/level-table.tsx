@@ -83,10 +83,10 @@ export function LevelTable() {
               <TableCell>{level.level_course}</TableCell>
               <TableCell className="text-right">
                 <div className="flex gap-2 justify-end">
-                  <Link href={`/dashboard/levels/${level.id}`}>
+                  <Link href={`/dashboard/admin/levels/${level.id}`}>
                     <Button
                       size="sm"
-                      className="bg-yellow-500 text-white hover:bg-yellow-600"
+                      className="bg-blue-500 text-white hover:bg-blue-600"
                     >
                       <BiPencil className="h-4 w-4" />
                       Editar
