@@ -1,6 +1,14 @@
-export interface Curso {
+// export interface Curso {
+//   id: number;
+//   nombre: string;
+// }
+
+interface StudentCourse {
   id: number;
-  nombre: string;
+  courses: {
+    id: number;
+    nombre: string;
+  };
 }
 export interface Student {
   id: number;
@@ -34,7 +42,8 @@ export interface Student {
     apellido: string;
     telefono?: string;
   }; // Optional tutor field
-  cursos_ids: Curso[];
+  // cursos_ids: Curso[];
+  studentCourses: StudentCourse[];
 }
 
 export interface StudentData {

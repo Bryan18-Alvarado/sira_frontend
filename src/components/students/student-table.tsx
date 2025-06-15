@@ -126,13 +126,13 @@ export function StudentTable() {
                 <TableCell>{student.genero.name || "Sin genero"}</TableCell>
                 <TableCell>{student.telefono}</TableCell>
                 <TableCell>
-                  {student.cursos_ids && student.cursos_ids.length > 0
-                    ? student.cursos_ids.map((curso) => (
+                  {student.studentCourses && student.studentCourses.length > 0
+                    ? student.studentCourses.map((studentCourse) => (
                         <span
-                          key={curso.id}
+                          key={studentCourse.courses.id}
                           className="mr-1 px-1 rounded bg-blue-100 text-blue-800 text-xs"
                         >
-                          {curso.nombre}
+                          {studentCourse.courses.nombre}
                         </span>
                       ))
                     : "Sin cursos asignados"}
