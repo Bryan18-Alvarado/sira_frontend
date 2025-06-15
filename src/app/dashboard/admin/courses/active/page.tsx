@@ -5,6 +5,7 @@ import {
   Course,
   CoursesResponse,
 } from "../../../../../interface/courses.interface";
+import { FileText } from "lucide-react"; // Cambiado el ícono
 
 const ActiveCoursesPage: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -80,9 +81,15 @@ const ActiveCoursesPage: React.FC = () => {
                   <strong>Available Slots:</strong> {course.cupos_disponibles}
                 </p>
               </div>
-              <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
-                Ver Detalles
-              </button>
+              <div className="mt-4 flex justify-center">
+                <a
+                  href={`/dashboard/admin/courses/profile/${course.id}`}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
+                >
+                  <FileText className="mr-2 h-4 w-4" /> {/* Nuevo ícono */}
+                  Ver plan de estudio
+                </a>
+              </div>
             </div>
           </div>
         ))}
