@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CategoriesEditForm } from "../../../../../components/categories/categories-form";
+import { CategoriesEditForm } from "../../../../../components/categories/categories-formedit";
 function CategoriesEditPage() {
   return (
     <div className="h-screen flex justify-center items-center shadow-sm">

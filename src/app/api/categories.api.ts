@@ -45,7 +45,7 @@ export async function updateCategory(
 export async function getCategoriesId(id: number): Promise<CategoriesData> {
   const res = await fetch(`http://localhost:4000/api/v1/categories/${id}`);
   const response = await res.json();
-  return response.data;
+  return response;
 }
 
 export async function deleteCategory(id: number) {

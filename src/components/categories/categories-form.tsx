@@ -49,41 +49,41 @@ export function CategoriesForm() {
   );
 }
 
-export function CategoriesEditForm() {
-  const { id } = useParams();
-  const router = useRouter();
+// export function CategoriesEditForm() {
+//   const { id } = useParams();
+//   const router = useRouter();
 
-  const { register, handleSubmit, setValue } = useForm<CategoriesData>();
+//   const { register, handleSubmit, setValue } = useForm<CategoriesData>();
 
-  const onSubmit = handleSubmit(async (data) => {
-    await updateCategory(data, Number(id));
-    router.push("/dashboard/categories");
-    router.refresh();
-  });
+//   const onSubmit = handleSubmit(async (data) => {
+//     await updateCategory(data, Number(id));
+//     router.push("/dashboard/categories");
+//     router.refresh();
+//   });
 
-  return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div className="grid gap-4">
-        <div>
-          <Label htmlFor="nombre">Nombre</Label>
-          <Input
-            id="nombre"
-            {...register("nombre", { required: "El nombre es requerido" })}
-          />
-        </div>
-        <div>
-          <Label htmlFor="descripcion">Descripción</Label>
-          <Input
-            id="descripcion"
-            {...register("descripcion", {
-              required: "La descripción es requerida",
-            })}
-          />
-        </div>
-      </div>
-      <Button type="submit" className={buttonVariants({ variant: "agregar" })}>
-        Actualizar Categoria
-      </Button>
-    </form>
-  );
-}
+//   return (
+//     <form onSubmit={onSubmit} className="space-y-4">
+//       <div className="grid gap-4">
+//         <div>
+//           <Label htmlFor="nombre">Nombre</Label>
+//           <Input
+//             id="nombre"
+//             {...register("nombre", { required: "El nombre es requerido" })}
+//           />
+//         </div>
+//         <div>
+//           <Label htmlFor="descripcion">Descripción</Label>
+//           <Input
+//             id="descripcion"
+//             {...register("descripcion", {
+//               required: "La descripción es requerida",
+//             })}
+//           />
+//         </div>
+//       </div>
+//       <Button type="submit" className={buttonVariants({ variant: "agregar" })}>
+//         Actualizar Categoria
+//       </Button>
+//     </form>
+//   );
+// }

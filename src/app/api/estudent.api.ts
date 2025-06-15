@@ -58,7 +58,7 @@ export async function getStudentById(id: number): Promise<StudentData> {
     throw new Error(`Error al obtener estudiante: ${res.statusText}`);
   }
   const json = await res.json();
-  return json.data; // 👉 Devuelve directamente el objeto estudiante
+  return json.data;
 }
 
 export async function updateEstudent(

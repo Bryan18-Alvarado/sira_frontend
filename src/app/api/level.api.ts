@@ -25,6 +25,12 @@ export async function addLevel(levelsData: LevelsData) {
   return res.json();
 }
 
+export async function getLevelById(id: number): Promise<LevelsData> {
+  const res = await fetch(`http://localhost:4000/api/v1/levels/${id}`);
+  const response = await res.json();
+  return response;
+}
+
 export async function updateLevel(levelsData: LevelsData, id: number) {
   const res = await fetch(`http://localhost:4000/api/v1/levels/${id}`, {
     method: "PUT",

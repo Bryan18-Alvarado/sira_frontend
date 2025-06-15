@@ -16,6 +16,8 @@ import Swal from "sweetalert2";
 import { getAllTutores } from "../../app/api/tutores.api";
 import { Tutor } from "../../interface/tutor.interface";
 import { getDocenteById } from "../../app/api/docentes.api";
+import { getAllCourses } from "../../app/api/courses.api";
+import type { StudentCourse } from "../../interface/estudiante.interface";
 
 interface OptionType {
   value: number;
@@ -31,6 +33,7 @@ export function StudentEditForm() {
 
   const [genderOptions, setGenderOptions] = useState<OptionType[]>([]);
   const [tutorOptions, setTutorOptions] = useState<OptionType[]>([]);
+  const [courseOptions, setCourseOptions] = useState<OptionType[]>([]);
 
   useEffect(() => {
     getAllGenders().then((res) => {
@@ -48,6 +51,13 @@ export function StudentEditForm() {
       }));
       setTutorOptions(options);
     });
+    getAllCourses(0, 100).then((res) => {
+      const options = res.data.map((c: { id: number; nombre: string }) => ({
+        value: c.id,
+        label: c.nombre,
+      }));
+      setCourseOptions(options);
+    });
   }, []);
 
   useEffect(() => {
@@ -62,6 +72,10 @@ export function StudentEditForm() {
       setValue("email", student.email);
       setValue("direccion", student.direccion);
       setValue("tutor_id", student.tutor_id);
+      const cursosIds = student.studentCourses.map(
+        (studentCourse: StudentCourse) => studentCourse.courses.id
+      );
+      setValue("cursos_ids", cursosIds);
 
       console.log("Datos seteados en formulario");
     });
@@ -155,6 +169,35 @@ export function StudentEditForm() {
                   }
                   placeholder="Selecciona un género"
                   isClearable
+                />
+              );
+            }}
+          />
+        </div>
+        <div className="md:col-span-2">
+          <Label>Cursos</Label>
+          <Controller
+            name="cursos_ids"
+            control={control}
+            render={({ field }) => {
+              const selected = courseOptions.filter((option) =>
+                field.value?.includes(option.value)
+              );
+
+              return (
+                <Select
+                  {...field}
+                  options={courseOptions}
+                  value={selected}
+                  onChange={(selectedOptions) =>
+                    field.onChange(
+                      selectedOptions
+                        ? selectedOptions.map((opt) => opt.value)
+                        : []
+                    )
+                  }
+                  placeholder="Selecciona los cursos"
+                  isMulti
                 />
               );
             }}
