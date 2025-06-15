@@ -36,18 +36,15 @@ const ActiveCoursesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white p-6">
-      {" "}
-      {/* Cambiado de bg-gray-100 a bg-white */}
-      {/* Contenedor del logo */}
+    <div className="min-h-screen p-6">
       <div className="flex justify-center mb-6">
         <img
-          src="/images/logo.png" // Reemplaza con la ruta de tu logo
-          alt="Community English Center Logo"
-          className="h-40" // Cambiado de h-20 a h-40 para duplicar el tamaño
+          src="/images/logo.png" // Cambia esta ruta por la de tu logo
+          alt="Logo"
+          className="h-40 w-auto"
         />
       </div>
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+      <h1 className="text-4xl font-bold text-center text-blue-800 mb-12">
         Cursos del Community English Center
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -56,7 +53,7 @@ const ActiveCoursesPage: React.FC = () => {
             key={course.id}
             className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-transform duration-300 flex flex-col"
           >
-            {/* Espacio para la imagen o nombre */}
+            <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-[6px] group-hover:border-gradient-to-r transition-all duration-500 pointer-events-none"></div>
             <div className="h-40 bg-gray-100 flex items-center justify-center rounded-t-lg overflow-hidden">
               {course.image ? (
                 <img
