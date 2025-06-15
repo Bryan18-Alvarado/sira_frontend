@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Docente,
   DocenteResponse,
 } from "../../../../../../interface/docente.interface";
+import { Button } from "../../../../../../components/ui/button";
 
 const TeacherProfile = () => {
   const [docente, setDocente] = useState<Docente | null>(null);
   const params = useParams();
+  const router = useRouter();
   const id = params?.id;
 
   useEffect(() => {
@@ -75,6 +77,16 @@ const TeacherProfile = () => {
               {docente.nombre} {docente.apellido}
             </h2>
             <p className="text-blue-800 mb-6">{docente.user?.email}</p>
+            <div className="flex justify-end mb-4">
+              <Button
+                className="bg-blue-500 text-white text-sm px-4 py-2 rounded-full hover:bg-blue-600 transition"
+                onClick={() =>
+                  router.push(`/dashboard/admin/docentes/${id}/edit-image`)
+                }
+              >
+                Actualizar Imagen
+              </Button>
+            </div>
             <div className="grid grid-cols-2 gap-6">
               <Info label="Edad" value={docente.edad} />
               <Info

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   Student,
   StudentResponse,
@@ -10,6 +10,7 @@ import {
 const EstudianteProfile = () => {
   const [estudiante, setEstudiante] = useState<Student | null>(null);
   const params = useParams();
+  const router = useRouter();
   const id = params?.id;
 
   useEffect(() => {
@@ -76,6 +77,15 @@ const EstudianteProfile = () => {
             </h2>
             <p className="text-blue-800 mb-6">{estudiante.user?.email}</p>
             <div className="grid grid-cols-2 gap-6">
+              <button
+                onClick={() =>
+                  router.push(`/dashboard/admin/students/${id}/edit-image`)
+                }
+                className="absolute top-8 right-8 px-3 py-1 text-sm font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                type="button"
+              >
+                Actualizar Imagen
+              </button>
               <Info
                 label="Fecha de nacimiento"
                 value={estudiante.fechaNacimiento}
