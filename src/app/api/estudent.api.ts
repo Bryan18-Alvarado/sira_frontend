@@ -95,3 +95,16 @@ export async function getCoursesByStudentId(studentId: number) {
 
   return response.json();
 }
+
+export async function getStudentByUserId(userId: number) {
+  const res = await fetch(
+    `http://localhost:4000/api/v1/estudiantes/usuario/${userId}`
+  );
+
+  if (!res.ok) {
+    throw new Error(`Error al obtener estudiante: ${res.statusText}`);
+  }
+
+  const json = await res.json();
+  return json.data;
+}
