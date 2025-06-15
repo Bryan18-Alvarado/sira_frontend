@@ -5,7 +5,7 @@ import {
   Course,
   CoursesResponse,
 } from "../../../../../interface/courses.interface";
-import { FileText } from "lucide-react"; // Cambiado el ícono
+import { FileText } from "lucide-react";
 
 const ActiveCoursesPage: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -36,60 +36,73 @@ const ActiveCoursesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+    <div className="min-h-screen p-6">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-12">
         Cursos del Community English Center
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {courses.map((course) => (
           <div
             key={course.id}
-            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+            className="relative bg-white border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-transform duration-300 flex flex-col overflow-hidden group hover:scale-105"
           >
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+            <div className="absolute inset-0 rounded-lg border-2 border-transparent group-hover:border-[6px] group-hover:border-gradient-to-r  transition-all duration-500 pointer-events-none"></div>
+            <div className="h-40 bg-gray-100 flex items-center justify-center rounded-t-lg overflow-hidden">
+              {course.image ? (
+                <img
+                  src={course.image}
+                  alt={course.nombre}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <span className="text-gray-500 text-lg font-semibold">
+                  {course.nombre}
+                </span>
+              )}
+            </div>
+            <div className="p-6 flex-grow relative z-10">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-3 group-hover:text-blue-500 transition-colors duration-300">
                 {course.nombre}
               </h2>
-              <p className="text-gray-600 mb-4">{course.descripcion}</p>
-              <div className="text-sm text-gray-500 space-y-1">
+              <p className="text-blue-600 mb-4">{course.descripcion}</p>
+              <div className="text-sm text-gray-900 space-y-1">
                 <p>
-                  <strong>Category:</strong>{" "}
+                  <strong>Categoria:</strong>{" "}
                   {course.categories?.nombre || "N/A"}
                 </p>
                 <p>
-                  <strong>Level:</strong> {course.level?.level_course || "N/A"}
+                  <strong>Nivel:</strong> {course.level?.level_course || "N/A"}
                 </p>
                 <p>
-                  <strong>Instructor:</strong>{" "}
-                  {course.docentes?.nombre || "N/A"}
+                  <strong>Docente:</strong> {course.docentes?.nombre || "N/A"}
                 </p>
                 <p>
-                  <strong>Duration:</strong> {course.duracion}
+                  <strong>Tiempo de duracion:</strong> {course.duracion}
                 </p>
                 <p>
-                  <strong>Start Date:</strong>{" "}
+                  <strong>Fecha de inicio:</strong>{" "}
                   {new Date(course.fecha_inicio).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>End Date:</strong>{" "}
+                  <strong>Fecha final de curso:</strong>{" "}
                   {new Date(course.fecha_fin).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Price:</strong> ${course.precio}
+                  <strong>Precio mensual:</strong> ${course.precio}
                 </p>
                 <p>
-                  <strong>Available Slots:</strong> {course.cupos_disponibles}
+                  <strong>Cupos disponibles:</strong> {course.cupos_disponibles}
                 </p>
               </div>
-              <div className="mt-4 flex justify-center">
-                <a
-                  href={`/dashboard/admin/courses/profile/${course.id}`}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
-                >
-                  <FileText className="mr-2 h-4 w-4" /> {/* Nuevo ícono */}
-                  Ver plan de estudio
-                </a>
-              </div>
+            </div>
+            <div className="p-4 border-t border-gray-200 flex justify-center relative z-10">
+              <a
+                href={`/dashboard/admin/courses/profile/${course.id}`}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-transform duration-300 hover:bg-blue-700 hover:scale-105 flex items-center"
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                Ver plan de estudio
+              </a>
             </div>
           </div>
         ))}
