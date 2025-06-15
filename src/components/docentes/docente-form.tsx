@@ -38,7 +38,6 @@ export function DocenteForm() {
     formState: { errors },
   } = useForm<DocenteData>();
   const router = useRouter();
-  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const [genders, setGenders] = useState<{ id: number; name: string }[]>([]);
   const [maritalStatus, setMaritalStatus] = useState<
@@ -49,11 +48,6 @@ export function DocenteForm() {
     getAllGenders(0, 100).then((res) => setGenders(res.data));
     getAllMaritalStatus(0, 100).then((res) => setMaritalStatus(res.data));
   }, []);
-
-  const formData = new FormData();
-  if (imageFile) {
-    formData.append("image", imageFile);
-  }
 
   const onSubmit = handleSubmit(async (data) => {
     if (!session?.user?.token) {
@@ -170,12 +164,6 @@ export function DocenteForm() {
           <Label>Fecha Nacimiento</Label>
           <Input {...register("fecha_nacimiento")} type="date" />
         </div>
-        <Label>Imagen</Label>
-        <Input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImageFile(e.target.files?.[0] || null)}
-        />
         <div>
           <Label>Género</Label>
           <Select

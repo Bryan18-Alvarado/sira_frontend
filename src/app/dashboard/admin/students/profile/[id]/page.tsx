@@ -99,25 +99,28 @@ const EstudianteProfile = () => {
                 {estudiante.direccion || "No disponible"}
               </p>
             </div>
-            {/* <div className="mt-6">
+            <div className="mt-6">
               <h3 className="text-2xl font-bold text-green-900 mb-4">
                 Cursos Asignados
               </h3>
-              {estudiante.courses && estudiante.courses.length > 0 ? (
+              {estudiante.studentCourses &&
+              estudiante.studentCourses.length > 0 ? (
                 <div className="flex flex-wrap gap-4">
-                  {estudiante.courses.map((curso, index) => (
+                  {estudiante.studentCourses.map((curso) => (
                     <span
-                      key={index}
+                      key={curso.id}
                       className="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-full shadow-md hover:bg-blue-600 transition"
                     >
-                      {curso.nombre}
+                      {curso.courses.nombre}
                     </span>
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-700">No tiene cursos asignados.</p>
+                <p className="text-gray-700">
+                  El estudiante no cuenta con cursos matriculados
+                </p>
               )}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
