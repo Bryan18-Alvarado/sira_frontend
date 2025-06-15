@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import {
   Course,
@@ -9,21 +11,23 @@ const ActiveCoursesPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchCourse = async () => {
+    const fetchCourses = async () => {
       try {
         const response = await fetch("http://localhost:4000/api/v1/courses");
         if (!response.ok) {
-          throw new Error("Error al obtener los estudiantes activos");
+          throw new Error("Error fetching courses");
         }
         const data: CoursesResponse = await response.json();
         setCourses(data.data || []);
       } catch (error) {
-        console.error("Error al obtener los estudiantes activos:", error);
+        console.error("Error fetching courses:", error);
         setCourses([]);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchCourse();
+    fetchCourses();
   }, []);
 
   if (loading) {
@@ -31,45 +35,55 @@ const ActiveCoursesPage: React.FC = () => {
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Active Courses</h1>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+        Academic Registration System
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses.map((course) => (
           <div
             key={course.id}
-            className="bg-white shadow-lg rounded-lg p-4 hover:shadow-xl transition-shadow duration-300"
+            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
           >
-            <h2 className="text-xl font-semibold mb-2">{course.nombre}</h2>
-            <p className="text-gray-600 mb-2">{course.descripcion}</p>
-            <p className="text-sm text-gray-500">
-              <strong>Category:</strong> {course.categories.nombre}
-            </p>
-            <p className="text-sm text-gray-500">
-              <strong>Level:</strong> {course.level.level_course}
-            </p>
-            <p className="text-sm text-gray-500">
-              <strong>Instructor:</strong> {course.docentes.nombre}
-            </p>
-            <p className="text-sm text-gray-500">
-              <strong>Duration:</strong> {course.duracion}
-            </p>
-            <p className="text-sm text-gray-500">
-              <strong>Start Date:</strong>{" "}
-              {new Date(course.fecha_inicio).toLocaleDateString()}
-            </p>
-            <p className="text-sm text-gray-500">
-              <strong>End Date:</strong>{" "}
-              {new Date(course.fecha_fin).toLocaleDateString()}
-            </p>
-            <p className="text-sm text-gray-500">
-              <strong>Price:</strong> ${course.precio}
-            </p>
-            <p className="text-sm text-gray-500">
-              <strong>Available Slots:</strong> {course.cupos_disponibles}
-            </p>
-            <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
-              Enroll Now
-            </button>
+            <div className="p-6">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                {course.nombre}
+              </h2>
+              <p className="text-gray-600 mb-4">{course.descripcion}</p>
+              <div className="text-sm text-gray-500 space-y-1">
+                <p>
+                  <strong>Category:</strong>{" "}
+                  {course.categories?.nombre || "N/A"}
+                </p>
+                <p>
+                  <strong>Level:</strong> {course.level?.level_course || "N/A"}
+                </p>
+                <p>
+                  <strong>Instructor:</strong>{" "}
+                  {course.docentes?.nombre || "N/A"}
+                </p>
+                <p>
+                  <strong>Duration:</strong> {course.duracion}
+                </p>
+                <p>
+                  <strong>Start Date:</strong>{" "}
+                  {new Date(course.fecha_inicio).toLocaleDateString()}
+                </p>
+                <p>
+                  <strong>End Date:</strong>{" "}
+                  {new Date(course.fecha_fin).toLocaleDateString()}
+                </p>
+                <p>
+                  <strong>Price:</strong> ${course.precio}
+                </p>
+                <p>
+                  <strong>Available Slots:</strong> {course.cupos_disponibles}
+                </p>
+              </div>
+              <button className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300">
+                Enroll Now
+              </button>
+            </div>
           </div>
         ))}
       </div>

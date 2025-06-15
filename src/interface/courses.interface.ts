@@ -21,6 +21,7 @@ export interface Course {
   duracion: string;
   horario: string;
   fecha_inicio: string;
+  image?: string;
   fecha_fin: string;
   status: boolean;
   cupos_disponibles: number;
@@ -42,6 +43,7 @@ export interface CoursesData {
   duracion: string;
   horario: string;
   status: boolean;
+  image?: string;
   fecha_inicio: string;
   fecha_fin: string;
   cupos_disponibles: number;

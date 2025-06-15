@@ -1,3 +1,5 @@
+"use client";
+
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Course } from "../../../../../../interface/courses.interface";
@@ -17,8 +19,9 @@ const CourseProfile: React.FC = () => {
         if (!response.ok) {
           throw new Error(`Error fetching course with id ${id}`);
         }
-        const data: Course = await response.json();
-        setCourse(data);
+        const data = await response.json();
+        console.log("Course data:", data); // Depuración
+        setCourse(data.data); // Asegúrate de acceder al campo correcto
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
@@ -28,7 +31,6 @@ const CourseProfile: React.FC = () => {
 
     fetchCourseById();
   }, [id]);
-
   if (loading) {
     return <div className="text-center mt-10">Loading...</div>;
   }
@@ -49,7 +51,7 @@ const CourseProfile: React.FC = () => {
       <div className="bg-white shadow-lg rounded-lg p-6">
         <p className="text-gray-600 mb-4">{course.descripcion}</p>
         <p className="text-sm text-gray-500">
-          <strong>Category:</strong> {course.categories.nombre}
+          <strong>Category:</strong> {course.categories?.nombre}
         </p>
         <p className="text-sm text-gray-500">
           <strong>Level:</strong> {course.level.level_course}
