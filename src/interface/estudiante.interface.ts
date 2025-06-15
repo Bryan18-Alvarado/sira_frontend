@@ -5,6 +5,7 @@
 
 export interface StudentCourse {
   id: number;
+  enrollmentDate: string;
   courses: {
     id: number;
     nombre: string;

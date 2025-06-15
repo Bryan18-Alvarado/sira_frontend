@@ -18,8 +18,22 @@ import { SidebarItem } from "./SidebarItem";
 import { CiLogout } from "react-icons/ci";
 import { signOutAndRedirect } from "../app/signOut/page";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
+
+// 🔍 Llamada al backend
+async function getStudentByUserId(userId: number) {
+  const res = await fetch(
+    `http://localhost:4000/api/v1/estudiantes/usuario/${userId}`
+  );
+
+  if (!res.ok) {
+    throw new Error(`Error al obtener estudiante: ${res.statusText}`);
+  }
+
+  const json = await res.json();
+  return json.data;
+}
 
 const menuByRole = {
   admin: [
@@ -95,7 +109,12 @@ const menuByRole = {
     {
       icon: <IoCheckboxOutline />,
       title: "Calificaciones",
-      path: "/dashboard/estudiante/calificaciones",
+      path: "/dashboard/estudiante/${studentId}/calificaciones",
+    },
+    {
+      icon: <IoPersonSharp />,
+      title: "Perfil",
+      path: "/dashboard/estudiante/${studentId}/profile",
     },
   ],
 };
@@ -103,15 +122,55 @@ const menuByRole = {
 export const Sidebar = () => {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
-
-  if (status === "loading") {
-    return <div className="p-4">Cargando menú...</div>;
-  }
+  const [studentId, setStudentId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const roles = session?.user?.roles ?? [];
   const role = roles.find((r) => r !== "user");
+  const userId = session?.user?.id;
 
-  const menuItems = menuByRole[role as keyof typeof menuByRole] ?? [];
+  useEffect(() => {
+    const fetchStudent = async () => {
+      if (role === "estudiante" && userId) {
+        try {
+          const student = await getStudentByUserId(Number(userId));
+          setStudentId(student.id.toString());
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    fetchStudent();
+  }, [role, userId]);
+
+  if (status === "loading" || loading) {
+    return <div className="p-4">Cargando menú...</div>;
+  }
+
+  const menuItemsRaw = menuByRole[role as keyof typeof menuByRole] ?? [];
+  const menuItems = menuItemsRaw.map((item) => {
+    if (role === "estudiante" && studentId) {
+      return {
+        ...item,
+        path: item.path.replace("${studentId}", studentId),
+      };
+    }
+    return item;
+  });
+
+  let profilePath = "#";
+  if (role === "admin") {
+    profilePath = "/dashboard/admin/profile";
+  } else if (role === "docente") {
+    profilePath = "/dashboard/docente/profile";
+  } else if (role === "estudiante" && studentId) {
+    profilePath = `/dashboard/estudiante/${studentId}/profile`;
+  }
 
   return (
     <>
@@ -143,13 +202,15 @@ export const Sidebar = () => {
           </div>
 
           <div className="mt-8 text-center">
-            <Image
-              src="/images/beethoven.jpg"
-              width={150}
-              height={150}
-              alt="Profile"
-              className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
-            />
+            <Link href={profilePath}>
+              <Image
+                src="/images/beethoven.jpg"
+                width={150}
+                height={150}
+                alt="Profile"
+                className="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28"
+              />
+            </Link>
             <h5 className="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">
               {session?.user?.userName ?? "Usuario"}
             </h5>
