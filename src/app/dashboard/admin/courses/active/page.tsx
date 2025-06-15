@@ -5,7 +5,7 @@ import {
   Course,
   CoursesResponse,
 } from "../../../../../interface/courses.interface";
-import { FileText } from "lucide-react"; // Cambiado el ícono
+import { FileText } from "lucide-react";
 
 const ActiveCoursesPage: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -44,9 +44,24 @@ const ActiveCoursesPage: React.FC = () => {
         {courses.map((course) => (
           <div
             key={course.id}
-            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+            className="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col"
           >
-            <div className="p-6">
+            {/* Espacio para la imagen o nombre */}
+            <div className="h-40 bg-gray-100 flex items-center justify-center rounded-t-lg overflow-hidden">
+              {course.image ? (
+                <img
+                  src={`http://localhost:4000${course.image}`}
+                  alt={course.nombre}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <span className="text-gray-500 text-lg font-semibold">
+                  {course.nombre}
+                </span>
+              )}
+            </div>
+            {/* Contenido del curso */}
+            <div className="p-6 flex-grow">
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {course.nombre}
               </h2>
@@ -81,15 +96,16 @@ const ActiveCoursesPage: React.FC = () => {
                   <strong>Available Slots:</strong> {course.cupos_disponibles}
                 </p>
               </div>
-              <div className="mt-4 flex justify-center">
-                <a
-                  href={`/dashboard/admin/courses/profile/${course.id}`}
-                  className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
-                >
-                  <FileText className="mr-2 h-4 w-4" /> {/* Nuevo ícono */}
-                  Ver plan de estudio
-                </a>
-              </div>
+            </div>
+            {/* Botón alineado */}
+            <div className="p-4 border-t border-gray-200 flex justify-center">
+              <a
+                href={`/dashboard/admin/courses/profile/${course.id}`}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                Ver plan de estudio
+              </a>
             </div>
           </div>
         ))}

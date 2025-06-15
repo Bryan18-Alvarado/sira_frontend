@@ -55,7 +55,7 @@ export default function DocentePage() {
           </div>
         </Link>
 
-        <Link href="/dahshboard/admin/courses/active">
+        <Link href="/dashboard/admin/courses/active">
           <div className="bg-gradient-to-br from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-2xl p-6 shadow-lg transition-transform transform hover:scale-105 cursor-pointer">
             <div className="flex items-center gap-4">
               <Layers className="w-10 h-10 text-white" />
