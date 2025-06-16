@@ -178,22 +178,8 @@ npm start
 ![Inicio de docente](/public/images/inicio-docente.jpeg)
 **Inicio de docentes**: vista principal de docentes
 
-![cursos asignados](/public/images/cursoos.jpeg)
-**Cursos asignados**: vista de loscursos que ese docente tiene asignado docente
-
 ![vista de calificar cursos](/public/images/calificar.jpeg)
 **Tablas de docentes**: vista para que el docente elija que curso calificar
-
-![vista de home page estudiante](/public/images/home-estudiante.jpeg)
-**Calificando docente**: vista para que el docente califique dependiendo de la asignacion
-
-#### Tablas de Estudiantes
-
-![vista cursos estudiante](/public/images/cursos-estudiantes.jpeg)
-**vista para el estudiante vea sus cursos**: vista para que el estudiante pueda ver los cursos en los que esta matriculado
-
-![vista de calificando a estudiantes](/public/images/calificaciones-estudiante.jpeg)
-**vista calificaciones del estudiante**: vista para que el estudiante mire sus calificaciones
 
 ---
 
