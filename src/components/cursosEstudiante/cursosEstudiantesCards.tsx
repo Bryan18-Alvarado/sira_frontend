@@ -149,12 +149,7 @@ export default function CursosEstudiantesCards({ courses }: Props) {
                         </div>
                       </div>
 
-                      <button
-                        onClick={() =>
-                          (window.location.href = `/dashboard/student/courses/${course.courses.id}`)
-                        }
-                        className="w-full group/btn relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-800 to-blue-700 p-3.5 text-white font-medium transition-all duration-300 hover:from-green-700 hover:to-green-600 hover:shadow-lg hover:shadow-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
-                      >
+                      <button className="w-full group/btn relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-800 to-blue-700 p-3.5 text-white font-medium transition-all duration-300 hover:from-green-700 hover:to-green-600 hover:shadow-lg hover:shadow-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
                         <div className="flex items-center justify-center gap-2">
                           <span>Plan de estudio</span>
                           <IoRibbon className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />

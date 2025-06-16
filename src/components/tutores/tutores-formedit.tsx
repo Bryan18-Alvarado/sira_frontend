@@ -6,7 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
 
@@ -177,7 +177,12 @@ export function TutorEditForm() {
       </div>
 
       <div className="pt-4">
-        <Button type="submit">Actualizar Tutor</Button>
+        <Button
+          type="submit"
+          className={buttonVariants({ variant: "agregar" })}
+        >
+          Actualizar Tutor
+        </Button>{" "}
       </div>
     </form>
   );

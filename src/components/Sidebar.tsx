@@ -101,6 +101,11 @@ const menuByRole = {
       title: "Perfil",
       path: "/dashboard/estudiante/${studentId}/profile",
     },
+    {
+      icon: <IoListOutline />,
+      title: "Oferta Académica",
+      path: "/dashboard/estudiante/oferta-academica",
+    },
   ],
 };
 
