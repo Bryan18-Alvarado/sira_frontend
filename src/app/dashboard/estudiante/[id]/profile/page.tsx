@@ -131,17 +131,6 @@ const EstudianteProfile = () => {
                 </p>
               )}
             </div>
-            <div className="flex justify-end">
-              <button
-                onClick={() =>
-                  router.push(`/dashboard/estudiante/${id}/edit-password`)
-                }
-                className="mt-2 px-3 py-1 text-sm font-semibold bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                type="button"
-              >
-                Actualizar Contraseña
-              </button>
-            </div>
           </div>
         </div>
       </div>
