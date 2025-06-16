@@ -51,7 +51,7 @@ export function UpdateEstudianteImageForm({
         title: "Imagen subida correctamente",
         confirmButtonText: "OK",
       }).then(() => {
-        router.push(`/dashboard/admin/students/profile/${estudianteId}`);
+        router.push(`/dashboard/admin/students/${estudianteId}/profile/`);
       });
     } catch (error) {
       Swal.fire({

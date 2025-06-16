@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getStudentsByCourseId } from "../../../../../../api/estudent.api";
 import { getCourseById } from "../../../../../../api/courses.api";
+import { Button } from "@/components/ui/button";
 
 export default function CalificarCursoPage({
   params,
@@ -80,6 +81,32 @@ export default function CalificarCursoPage({
           ))}
         </ul>
       )}
+      <Button
+        variant="outline"
+        onClick={async () => {
+          try {
+            const courseId = 1; // Cambia esto por el id del curso que desees
+            const res = await fetch(
+              `http://localhost:4000/api/v1/report/excel/coursesstudents/${courseId}`
+            );
+            if (!res.ok) throw new Error("Error al descargar el reporte");
+            const blob = await res.blob();
+
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `estudiantes_curso_${courseId}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+          } catch (error) {
+            console.error("Error al descargar el reporte:", error);
+          }
+        }}
+      >
+        Descargar Excel de este curso
+      </Button>
     </div>
   );
 }

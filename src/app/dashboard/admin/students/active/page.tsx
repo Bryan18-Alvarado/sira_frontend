@@ -55,7 +55,7 @@ const EstudiantesActivos = () => {
             </p>
             <div className="mt-4 flex justify-center">
               <a
-                href={`/dashboard/admin/students/profile/${estudiante.id}`}
+                href={`/dashboard/admin/students/${estudiante.id}/profile/`}
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg transition-colors duration-300 hover:bg-blue-900 flex items-center"
               >
                 <Link className="mr-2 h-4 w-4" />
