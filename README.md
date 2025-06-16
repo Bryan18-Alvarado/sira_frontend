@@ -1,6 +1,6 @@
 # SIRA Frontend
 
-![SIRA Logo](/public/images/logo.png)
+![SIRA Logo](/public/images/sira.jpeg)
 
 SIRA (Frontend) es un sistema de registro académico para el **Community English Center (SIRA)**. Este proyecto fue creado con la iniciativa de facilitar la gestión académica, permitiendo a estudiantes, docentes y administrador interactuar con el sistema de manera eficiente. Está desarrollado con **Next.js**, **React**, y **TailwindCSS**, y se conecta a un backend basado en **NestJS** y **PostgreSQL**.
 
@@ -54,6 +54,7 @@ SIRA (Frontend) es un sistema de registro académico para el **Community English
 - **react-icons**: Librería de íconos para React.
 - **react-select**: Componente de selección personalizable.
 - **sweetalert2**: Alertas personalizables para mejorar la experiencia del usuario.
+- **Shadcn**: libreria con componentes ya creados y reutilizables
 
 ### Animaciones y Estilo Avanzado
 
@@ -169,14 +170,30 @@ npm start
 **Tablas de docentes**: tabla con CRUD de docente
 
 ![Formulario de docente](/public/images/agregar-docente)
-**Tablas de docentes**: tabla con CRUD de docente
 
-![Formulario de docente](/public/images/inicio-docente.jpeg)
-![Formulario de docente](/public/images/corregido.jpeg)
-![Formulario de docente](/public/images/calificar.jpeg)
-![Formulario de docente](/public/images/calificando.jpeg)
-![Formulario de docente](/public/images/perfil.jpeg)
-![Formulario de docente](/public/images/agregar-docente)
+**Formulario de docentes**: tabla con CRUD de docente
+
+#### Tablas de Docentes
+
+![Inicio de docente](/public/images/inicio-docente.jpeg)
+**Inicio de docentes**: vista principal de docentes
+
+![cursos asignados](/public/images/cursoos.jpeg)
+**Cursos asignados**: vista de loscursos que ese docente tiene asignado docente
+
+![vista de calificar cursos](/public/images/calificar.jpeg)
+**Tablas de docentes**: vista para que el docente elija que curso calificar
+
+![vista de home page estudiante](/public/images/home-estudiante.jpeg)
+**Calificando docente**: vista para que el docente califique dependiendo de la asignacion
+
+#### Tablas de Estudiantes
+
+![vista cursos estudiante](/public/images/cursos-estudiantes.jpeg)
+**vista para el estudiante vea sus cursos**: vista para que el estudiante pueda ver los cursos en los que esta matriculado
+
+![vista de calificando a estudiantes](/public/images/calificaciones-estudiante.jpeg)
+**vista calificaciones del estudiante**: vista para que el estudiante mire sus calificaciones
 
 ---
 
@@ -191,6 +208,8 @@ npm start
 ## 🌐 Despliegue
 
 El proyecto puede ser desplegado fácilmente en [Vercel](https://vercel.com/):
+
+!NOTA: vercel suele tener un costo elevado
 
 1. Conecta tu repositorio en Vercel.
 2. Configura las variables de entorno en el panel de Vercel.
@@ -209,6 +228,7 @@ Consulta la [documentación de despliegue de Next.js](https://nextjs.org/docs/ap
 3. Realiza tus cambios y haz un commit (`git commit -m 'Añadir nueva funcionalidad'`).
 4. Haz un push a tu rama (`git push origin feature/nueva-funcionalidad`).
 5. Abre un Pull Request.
+   6.contacta a los colaboradores.
 
 ---
 
