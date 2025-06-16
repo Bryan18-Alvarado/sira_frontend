@@ -96,6 +96,15 @@ export async function getCoursesByStudentId(studentId: number) {
   return response.json();
 }
 
+export async function getStudentsByCourseId(courseId: number) {
+  const response = await fetch(
+    `http://localhost:4000/api/v1/studentcourses/course/${courseId}`,
+    { cache: "no-store" }
+  );
+  if (!response.ok) throw new Error("Error al obtener estudiantes");
+  const data = await response.json();
+  return data.data || [];
+}
 export async function getStudentByUserId(userId: number) {
   const res = await fetch(
     `http://localhost:4000/api/v1/estudiantes/usuario/${userId}`

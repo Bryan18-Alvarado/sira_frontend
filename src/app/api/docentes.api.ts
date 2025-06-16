@@ -19,7 +19,38 @@ export async function getAllDocentes(
 
   return response.json();
 }
+export async function getCoursesByDocenteId(docenteId: number) {
+  const response = await fetch(
+    `http://localhost:4000/api/v1/docentes/${docenteId}/cursos`,
+    {
+      cache: "no-store",
+    }
+  );
 
+  if (!response.ok) {
+    throw new Error("Error al obtener los cursos del docente");
+  }
+
+  return response.json();
+}
+
+export async function getDocenteByUserId(userId: number) {
+  const res = await fetch(
+    `http://localhost:4000/api/v1/docentes/docente/usuario/${userId}`
+  );
+
+  if (!res.ok) {
+    throw new Error(`Error al obtener docente: ${res.statusText}`);
+  }
+
+  const json = await res.json();
+  // Si json.data es solo un número, retorna un objeto
+  if (typeof json.data === "number") {
+    return { id: json.data };
+  }
+  // Si ya es un objeto, retorna tal cual
+  return json.data;
+}
 export async function addDocente(
   dataDocente: DocenteData,
   token: string | undefined

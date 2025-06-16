@@ -13,6 +13,7 @@ import {
   IoPersonAddSharp,
   IoPersonSharp,
 } from "react-icons/io5";
+import { useMemo } from "react";
 
 import { SidebarItem } from "./SidebarItem";
 import { CiLogout } from "react-icons/ci";
@@ -20,20 +21,9 @@ import { signOutAndRedirect } from "../app/signOut/page";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { FiMenu } from "react-icons/fi";
-
-// 🔍 Llamada al backend
-async function getStudentByUserId(userId: number) {
-  const res = await fetch(
-    `http://localhost:4000/api/v1/estudiantes/usuario/${userId}`
-  );
-
-  if (!res.ok) {
-    throw new Error(`Error al obtener estudiante: ${res.statusText}`);
-  }
-
-  const json = await res.json();
-  return json.data;
-}
+import { getStudentByUserId } from "../app/api/estudent.api";
+import { getDocenteByUserId } from "../app/api/docentes.api";
+import { Button } from "./ui/button";
 
 const menuByRole = {
   admin: [
@@ -82,17 +72,12 @@ const menuByRole = {
     {
       icon: <IoCheckboxOutline />,
       title: "Mis Cursos",
-      path: "/dashboard/docente/cursos",
+      path: "/dashboard/docente/${docenteId}/cursos",
     },
     {
-      icon: <IoCheckboxOutline />,
-      title: "Cursos Activos",
-      path: "/dashboard/docente/cursos-activos",
-    },
-    {
-      icon: <IoListOutline />,
-      title: "Calificaciones",
-      path: "/dashboard/docente/calificaciones",
+      icon: <IoPersonSharp />,
+      title: "Perfil",
+      path: "/dashboard/docente/${docenteId}/profile",
     },
   ],
   estudiante: [
@@ -124,17 +109,31 @@ export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [studentId, setStudentId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [docenteId, setDocenteId] = useState<string | null>(null);
 
   const roles = session?.user?.roles ?? [];
   const role = roles.find((r) => r !== "user");
   const userId = session?.user?.id;
 
   useEffect(() => {
-    const fetchStudent = async () => {
+    const fetchUserData = async () => {
       if (role === "estudiante" && userId) {
         try {
           const student = await getStudentByUserId(Number(userId));
           setStudentId(student.id.toString());
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setLoading(false);
+        }
+      } else if (role === "docente" && userId) {
+        try {
+          const docenteData = await getDocenteByUserId(Number(userId));
+          if (!docenteData || !docenteData.id) {
+            console.error("El docente no tiene id");
+            return;
+          }
+          setDocenteId(docenteData.id.toString());
         } catch (error) {
           console.error(error);
         } finally {
@@ -145,23 +144,28 @@ export const Sidebar = () => {
       }
     };
 
-    fetchStudent();
+    fetchUserData();
   }, [role, userId]);
 
-  if (status === "loading" || loading) {
-    return <div className="p-4">Cargando menú...</div>;
-  }
-
   const menuItemsRaw = menuByRole[role as keyof typeof menuByRole] ?? [];
-  const menuItems = menuItemsRaw.map((item) => {
-    if (role === "estudiante" && studentId) {
-      return {
-        ...item,
-        path: item.path.replace("${studentId}", studentId),
-      };
-    }
-    return item;
-  });
+
+  const menuItems = useMemo(() => {
+    return menuItemsRaw.map((item) => {
+      if (role === "estudiante" && studentId) {
+        return {
+          ...item,
+          path: item.path.replace("${studentId}", studentId),
+        };
+      }
+      if (role === "docente" && docenteId) {
+        return {
+          ...item,
+          path: item.path.replace("${docenteId}", docenteId),
+        };
+      }
+      return item;
+    });
+  }, [menuItemsRaw, role, studentId, docenteId]);
 
   let profilePath = "#";
   if (role === "admin") {
@@ -172,15 +176,19 @@ export const Sidebar = () => {
     profilePath = `/dashboard/estudiante/${studentId}/profile`;
   }
 
+  if (status === "loading" || loading) {
+    return <div className="p-4">Cargando menú...</div>;
+  }
+
   return (
     <>
       {/* Hamburger Button */}
-      <button
+      <Button
         className="fixed top-4 left-4 z-20 p-2 bg-gray-800 text-white rounded-md md:hidden"
         onClick={() => setIsOpen(!isOpen)}
       >
         <FiMenu size={24} />
-      </button>
+      </Button>
 
       {/* Sidebar */}
       <aside
