@@ -1,6 +1,6 @@
 # SIRA Frontend
 
-![SIRA Logo](/public/images/sira.jpeg)
+![SIRA Logo](/public/images/image.png)
 
 SIRA (Frontend) es un sistema de registro académico para el **Community English Center (SIRA)**. Este proyecto fue creado con la iniciativa de facilitar la gestión académica, permitiendo a estudiantes, docentes y administrador interactuar con el sistema de manera eficiente. Está desarrollado con **Next.js**, **React**, y **TailwindCSS**, y se conecta a un backend basado en **NestJS** y **PostgreSQL**.
 
