@@ -54,7 +54,7 @@ SIRA (Frontend) es un sistema de registro académico para el **Community English
 - **react-icons**: Librería de íconos para React.
 - **react-select**: Componente de selección personalizable.
 - **sweetalert2**: Alertas personalizables para mejorar la experiencia del usuario.
-- **Shadcn**: libreria con componentes ya creados y reutilizables
+- **Shadcn**: libreria con componentes ya creados y reutilizables.
 
 ### Animaciones y Estilo Avanzado
 
