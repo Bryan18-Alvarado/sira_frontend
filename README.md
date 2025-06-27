@@ -108,7 +108,7 @@ NEXTAUTH_URL=http://localhost:3000
 DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/sira
 ```
 
-### 4. Configurar la base de datos
+### 4. Configurar la base de datos.
 
 Si estás usando **TypeORM**, asegúrate de que las entidades estén configuradas correctamente y ejecuta las migraciones:
 
