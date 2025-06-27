@@ -26,7 +26,7 @@ SIRA (Frontend) es un sistema de registro académico para el **Community English
 - **React**: Biblioteca para construir interfaces de usuario.
 - **TailwindCSS**: Framework de CSS para diseño rápido y responsivo.
 
-### Gestión de Estado y Formularios
+### Gestión de Estado y Formularios.
 
 - **react-hook-form**: Manejo eficiente de formularios en React.
 
